@@ -22,6 +22,7 @@ public class MainUI {
     private Grouper grouper;
     private Items itemList;
     private GUI gui;
+    private CraftSolver craftSolver;
 
     public MainUI() throws FileNotFoundException {
         r = new Scanner(System.in);
@@ -32,6 +33,8 @@ public class MainUI {
 
         this.grouper = new Grouper("horsemen\\player_stats.csv");
         this.itemList = new Items();
+
+        this.craftSolver = new CraftSolver(itemList);
     }
     public void startBuilder() throws FileNotFoundException {
     	Scanner r = new Scanner(System.in);
@@ -47,6 +50,7 @@ public class MainUI {
     }
     public void start() throws IOException {
         //this.itemList.loadBuild().checkLinks();
+        craftSolver.start();
     	Scanner r = new Scanner(System.in);
     	System.out.println("Item file location:");
     	String s = r.nextLine();
