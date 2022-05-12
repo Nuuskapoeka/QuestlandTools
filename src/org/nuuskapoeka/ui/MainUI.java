@@ -50,16 +50,16 @@ public class MainUI {
     }
     public void start() throws IOException {
         //this.itemList.loadBuild().checkLinks();
-        craftSolver.start();
     	Scanner r = new Scanner(System.in);
-    	System.out.println("Item file location:");
-    	String s = r.nextLine();
-    	itemList.load(s);
-    	
+    	//System.out.println("Item file location:");
+    	//String s = r.nextLine();
+    	//itemList.load(s);
+        //craftSolver.start();
         //this.itemList.clearEmpty();
-        gui.startGUI();
+        //gui.startGUI();
+        startBuilder();
         this.start.run();
-        grouper.findSoloers();
+        //grouper.findSoloers();
         while(true) {
             System.out.println("Command: ");
             System.out.print("> ");
@@ -684,12 +684,25 @@ public class MainUI {
     }
 
     public void guildScoreHistory(){
+
+        List<Integer> scores = new ArrayList<>();
+        List<Integer> maxScores = new ArrayList<>();
+
         for(int i = 5; i<Integer.MAX_VALUE; i++){
             int guildScore = guild.getGuildScore(i);
+            maxScores.add(guild.getMaxScores(i));
+            scores.add(guildScore);
             if(guildScore<=0){
+                for (int s : scores){
+                    System.out.println(s);
+                }
+                for (int s : maxScores){
+                    System.out.println(s);
+                }
                 break;
             }
         }
+
     }
 
     public void guildAverageScorePerPlayer(){

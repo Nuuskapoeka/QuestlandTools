@@ -12,6 +12,26 @@ public class CraftSlot {
         this.slotRequirement = slotReq;
     }
 
+    public String getEmblemRequirement() {
+        return emblemRequirement;
+    }
+
+    public void setEmblemRequirement(String emblemRequirement) {
+        this.emblemRequirement = emblemRequirement;
+    }
+
+    public String getSlotRequirement() {
+        return slotRequirement;
+    }
+
+    public void setSlotRequirement(String slotRequirement) {
+        this.slotRequirement = slotRequirement;
+    }
+
+    public Item getItem() {
+        return item;
+    }
+
     public boolean setItem(Item  i){
         if(i.getEmblem().equalsIgnoreCase(emblemRequirement)
                 || emblemRequirement.equalsIgnoreCase("any")
@@ -22,5 +42,14 @@ public class CraftSlot {
         }
         System.out.println("Emblem or Slot doesnt match");
         return false;
+    }
+
+    @Override
+    public String toString() {
+        return "CraftSlot{" +
+                "emblemRequirement='" + emblemRequirement + '\'' +
+                ", slotRequirement='" + slotRequirement + '\'' +
+                ", item=" + item +
+                '}';
     }
 }

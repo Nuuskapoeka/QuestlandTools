@@ -43,6 +43,21 @@ public class Guild {
         return this.events;
     }
 
+    public int getMaxScores(int week){
+
+        int maxScores = 0;
+
+        for (Hero h : this.heroes){
+            if(h.getTickets(week)<=-1){
+                continue;
+            }
+            if(h.getTrophies(week) == 9.06*1000000){
+                maxScores++;
+            }
+        }
+        return maxScores;
+    }
+
     public int getGuildScore(int week){
 
         List<Hero> topThirtyHitters = new ArrayList<>();
