@@ -19,11 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class GUI {
-    /**
-     * Create the GUI and show it.  For thread safety,
-     * this method should be invoked from the
-     * event-dispatching thread.
-     */
+
     private static List<String> items;
     private static Items itemList;
 
@@ -54,6 +50,14 @@ public class GUI {
         JFrame frame = new JFrame("Build Planner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
+        //Display the window.
+        frame.add(createMainPanel());
+        frame.pack();
+        frame.setSize(1200,800);
+        frame.setVisible(true);
+    }
+
+    public static JPanel createMainPanel(){
         JPanel panel = new JPanel();
 
         JLabel health = new JLabel();
@@ -149,11 +153,11 @@ public class GUI {
                 List<String> build = new ArrayList<>();
 
                 for(JComboBox jcb : panels){
-                	if(jcb.getSelectedItem() == null) {
-                		build.add("null");
-                	}else {
-                		build.add(jcb.getSelectedItem().toString());
-                	}
+                    if(jcb.getSelectedItem() == null) {
+                        build.add("null");
+                    }else {
+                        build.add(jcb.getSelectedItem().toString());
+                    }
                 }
                 try {
                     currentlyLoaded = itemList.loadBuild(build);
@@ -176,13 +180,10 @@ public class GUI {
         panel.add(collections);
         panel.add(statPanel);
         panel.add(button);
-        //Display the window.
-        frame.add(panel);
-        frame.pack();
-        frame.setSize(1200,800);
-        frame.setVisible(true);
+
+        return panel;
     }
-    
+
     public static void saveBuild(List<String> build) throws IOException {
     	Writer w = new Writer(new File("build.csv"));
     	w.write(build);
@@ -212,9 +213,9 @@ public class GUI {
             //System.out.println(itemList.getItem(s).getSlot());
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
                 //System.out.println(itemList.getItem(s).getSlot());
-                filtered.add(itemList.getItem(s).getName());
+                filtered.add(itemList.getItem(s).getIdentifier());
             }else if(itemList.getItem(s).getType().equalsIgnoreCase(type)){
-                filtered.add(itemList.getItem(s).getName());
+                filtered.add(itemList.getItem(s).getIdentifier());
             }
         }
         return filtered;

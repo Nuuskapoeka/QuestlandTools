@@ -48,18 +48,8 @@ public class MainUI {
         gui.startGUI();
         gui.loadBuildIn(itemList.loadBuild(b).getFullBuild());
     }
-    public void start() throws IOException {
-        //this.itemList.loadBuild().checkLinks();
-    	Scanner r = new Scanner(System.in);
-    	//System.out.println("Item file location:");
-    	//String s = r.nextLine();
-    	//itemList.load(s);
-        //craftSolver.start();
-        //this.itemList.clearEmpty();
-        //gui.startGUI();
-        startBuilder();
-        this.start.run();
-        //grouper.findSoloers();
+
+    public void startAnalyzer() throws FileNotFoundException {
         while(true) {
             System.out.println("Command: ");
             System.out.print("> ");
@@ -102,6 +92,20 @@ public class MainUI {
                 startBuild();
             }
         }
+    }
+
+    public void start() throws IOException {
+        //this.itemList.loadBuild().checkLinks();
+    	Scanner r = new Scanner(System.in);
+    	//System.out.println("Item file location:");
+    	//String s = r.nextLine();
+    	//itemList.load(s);
+        //craftSolver.start();
+        //this.itemList.clearEmpty();
+        //gui.startGUI();
+        startBuilder();
+        //this.start.run();
+        //grouper.findSoloers();
         for(Hero h : this.guild.getHeroes()){
             h.save();
         }
@@ -508,10 +512,6 @@ public class MainUI {
 
         File f = new File("test.csv");
         List<String> trophyHistories = new ArrayList<>();
-
-        String head = "NAME,15,16,17,18,19";
-
-        trophyHistories.add(head);
 
         String[] parts = command.split(" ");
         if(parts[2].equals("all")){

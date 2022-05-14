@@ -43,7 +43,6 @@ public class StartUp {
                 int i = 1;
                 while(r.hasNextLine()){
                     String event = r.nextLine();
-                    //System.out.println(event);
                     String[] parts = event.split(",");
                     String[] heroEvent = event.split(",",2);
                     if(i>1){
@@ -51,7 +50,6 @@ public class StartUp {
                             guild.addHero(new Hero(parts[0], Integer.parseInt(parts[5]), Integer.parseInt(parts[26]),Integer.parseInt(parts[12]), Integer.parseInt(parts[24])));
                         }
                         guild.getHero(parts[0]).addEvent(findWeek(f.toString()) +"," + heroEvent[1]);
-                        //System.out.println(guild.getHero(parts[0]));
                     }
                     i++;
                 }

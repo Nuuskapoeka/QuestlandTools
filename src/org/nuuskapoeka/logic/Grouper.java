@@ -30,7 +30,6 @@ public class Grouper {
 
         for(String s : f.read()){
             String[] stats = s.split(",");
-            //System.out.println(stats[0]);
             Hero h = new Hero(stats[0],
                     Integer.parseInt(stats[1]),
                     Integer.parseInt(stats[2]),
@@ -38,10 +37,6 @@ public class Grouper {
                     Integer.parseInt(stats[4]),
                     Double.parseDouble(stats[5]));
             heroStats.add(h);
-            //System.out.println(h);
-        }
-        for(Hero h : heroStats){
-            //System.out.println(h);
         }
         heroes = heroStats;
         return heroStats;
@@ -55,10 +50,8 @@ public class Grouper {
 
         for(Hero h : readStats()){
 
-            //System.out.println(h.getHeroName() + " : " + blueDamage(h) + " : " + h.getMulti());
             if((blueDamage(h))>damageToDeal){
                 soloers.add(h);
-                //System.out.println(h.getHeroName() + " : " + blueDamage(h));
             }
         }
 
@@ -68,15 +61,11 @@ public class Grouper {
 
         double damage = h.getMagic()*1.4*3*1.15;
 
-        //System.out.println(h.getHeroName() + " : chilling : " + (int)damage);
-
         return (int)damage;
     }
     public int fistDamage(Hero h){
 
         double damage = 0.8*((h.getMagic()*3+h.getAttack()*2)/2);
-
-        //System.out.println(h.getHeroName() + " : fist : " + (int)damage);
 
         return (int)damage;
     }
@@ -96,7 +85,6 @@ public class Grouper {
             group.add(heroes.get(0));
             Hero firstHero = heroes.get(0);
             heroes.remove(0);
-            //System.out.println(heroes.get(0).getHeroName());
             Hero h = findNear(heroes, damageToDeal-group.getGroupDamage());
             heroes.remove(h);
             System.out.println("Left Over : " + (damageToDeal-blueDamage(firstHero)));
@@ -117,9 +105,7 @@ public class Grouper {
                         continue;
                     }
                 }
-                //System.out.println("Left Over : " + (damageToDeal-blueDamage(firstHero)));
             }
-            //break;
         }
 
         int i = 1;
@@ -143,7 +129,6 @@ public class Grouper {
 
         for(Hero h : heroes){
             if(blueDamage(h) < damage*1.05 && blueDamage(h) > damage/1.05){
-                //System.out.println(h.getHeroName() + " : " + blueDamage(h));
                 found = true;
                 return h;
             }
@@ -151,7 +136,6 @@ public class Grouper {
 
         for(Hero h : heroes){
             if(blueDamage(h) < damage*1.1 && blueDamage(h) > damage/1.1){
-                //System.out.println(h.getHeroName() + " : " + blueDamage(h));
                 found = true;
                 return h;
             }
@@ -163,7 +147,6 @@ public class Grouper {
     private Hero findLower(List<Hero> heroes, int damage){
         for(Hero h : heroes){
             if(blueDamage(h) < damage){
-                //System.out.println(h.getHeroName() + " : " + blueDamage(h));
                 return h;
             }
         }
