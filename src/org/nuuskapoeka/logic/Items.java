@@ -50,6 +50,55 @@ public class Items {
         }
 
     }
+    public void findLength(int length, String comparableEntry, String includedLetters){
+        List<Item> list = new ArrayList<>();
+        for(Item i : itemList){
+            String s = i.getName().replace(" ", "");
+            if(s.length()==length && compareEntries(comparableEntry,s,includedLetters)){
+                list.add(i);
+                System.out.println(s);
+            }
+        }
+        for(Item i : list){
+            //System.out.println(i.getName());
+        }
+    }
+    public int lengthNoSpaces(String name){
+        String str = name;
+        String[] myString = str.split(" ");
+        int length = myString.length;
+        return length;
+    }
+    public boolean compareEntries(String s, String e, String letters){
+        String[] charSplit = s.split("");
+        //System.out.println(s);
+        String[] charSplit2 = e.split("");
+        //System.out.println(e);
+        String[] letterSplit = letters.split("");
+        int index = 0;
+        for(String c : charSplit){
+            //System.out.println(c);
+            if(c.equals("_")){
+                //System.out.println(c);
+                index++;
+                continue;
+            }
+            if(!charSplit[index].equalsIgnoreCase(charSplit2[index])){
+                //System.out.println("returning false in matching check");
+                return false;
+            }else{
+                //System.out.println("letters match");
+            }
+            index++;
+        }
+        for(String c3 : letterSplit){
+            if(!e.contains(c3)){
+                //System.out.println("returning false in letter check");
+                return false;
+            }
+        }
+        return true;
+    }
     /*
     public void load() throws FileNotFoundException {
         Reader r = new Reader(new File("C:\\Users\\s2000997\\Documents\\itemsList.csv"));

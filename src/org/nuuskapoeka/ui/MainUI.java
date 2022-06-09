@@ -99,13 +99,15 @@ public class MainUI {
     	Scanner r = new Scanner(System.in);
     	//System.out.println("Item file location:");
     	//String s = r.nextLine();
-    	//itemList.load(s);
+    	itemList.load("build\\items.csv");
         //craftSolver.start();
         //this.itemList.clearEmpty();
+        //this.itemList.findLength(15,"____E__________", "SACROS");
         //gui.startGUI();
         startBuilder();
         //this.start.run();
         //grouper.findSoloers();
+        startAnalyzer();
         for(Hero h : this.guild.getHeroes()){
             h.save();
         }

@@ -1,5 +1,4 @@
 package org.nuuskapoeka.tools;
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -20,5 +19,7 @@ public class Reader {
         }
         return lines;
     }
+    public void ReadJson(){
 
+    }
 }
