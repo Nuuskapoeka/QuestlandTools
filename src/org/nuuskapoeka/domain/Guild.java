@@ -107,17 +107,62 @@ public class Guild {
     public List<Integer> getGuildScores(){
         List<Integer> guildScores = new ArrayList<>();
 
-        for(int i = 15; i<Integer.MAX_VALUE;i++){
+        for(int i = 5; i<Integer.MAX_VALUE;i++){
             if(getGuildScore(i)<0){
                 break;
             }
             this.events.add(i);
             //System.out.println(i);
+            System.out.println(getGuildScore(i));
             guildScores.add(getGuildScore(i));
         }
         System.out.println(this.events);
 
         return guildScores;
+    }
+
+    public List<Integer> getAverageTickets(){
+        List<Integer> tickets = new ArrayList<>();
+
+        for(int i = 5; i<Integer.MAX_VALUE;i++){
+            if(getAverageTickets(i)<0){
+                break;
+            }
+            this.events.add(i);
+            //System.out.println(i);
+            System.out.println(getAverageTickets(i));
+            tickets.add(getAverageTickets(i));
+        }
+        System.out.println(this.events);
+
+        return tickets;
+    }
+
+    public List<Integer> getAverageHeroPower(){
+        List<Integer> avgHeroPower = new ArrayList<>();
+
+        System.out.println("power");
+
+        for(int i = 5; i<events.size();i++){
+            System.out.println("power");
+            int avgPowerPerWeek = 0;
+            int memberCount = 0;
+            for(Hero h : heroes){
+                if(h.getHeroPower(i)<0){
+                    System.out.println(h.getHeroName()+ " returning");
+                }
+                System.out.println(i);
+                avgPowerPerWeek+=h.getHeroPower(i);
+                memberCount++;
+            }
+            System.out.println(avgPowerPerWeek);
+            avgHeroPower.add(avgPowerPerWeek);
+            avgPowerPerWeek = 0;
+            memberCount = 0;
+        }
+        System.out.println(this.events);
+
+        return avgHeroPower;
     }
 
     public List<Hero> getTopHitters(){

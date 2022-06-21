@@ -22,6 +22,7 @@ public class Hero {
     private double multi;
 
     private int amountOfEvents;
+    private List<Integer> events;
 
     private List<String> battleEvents;
 
@@ -36,6 +37,7 @@ public class Hero {
         this.guildTrophies = guildTrophies;
         this.ticketsUsed = ticketsUsed;
 
+        this.events = new ArrayList<>();
         this.battleEvents = new ArrayList<>();
         this.battleEvents.add(this.heroName);
         this.battleEvents.add("WEEK,HERO LEVEL,PROGRESS,FAME LEVEL,PROGRESS,HERO POWER,PROGRESS,BOSS CHALLENGE SCORE,PROGRESS,DAYS IN GUILD,PROGRESS,GUILD TROPHIES COLLECTED PREVIOUS,GUILD TROPHIES COLLECTED CURRENT,GUILD EXPERIENCE PREVIOUS,GUILD EXPERIENCE CURRENT,DONATES COUNT PREVIOUS,DONATES COUNT CURRENT,TRIBUTES COUNT PREVIOUS,TRIBUTES COUNT CURRENT,NUMBER OF GIFTS SENT PREVIOUS,NUMBER OF GIFTS SENT CURRENT,FINISHED VOYAGES PREVIOUS,FINISHED VOYAGES CURRENT,GUILD BOSS TICKETS USED PREVIOUS,GUILD BOSS TICKETS USED CURRENT,SKULL TOKENS COLLECTED PREVIOUS,SKULL TOKENS COLLECTED CURRENT");
@@ -103,6 +105,12 @@ public class Hero {
 
     public void addEvent(String s){
         this.battleEvents.add(s);
+        String[] parts = s.split(",");
+        events.add(Integer.valueOf(parts[0]));
+    }
+
+    public List<Integer> getEvents(){
+        return this.events;
     }
 
     public void save(){
@@ -149,6 +157,22 @@ public class Hero {
 
         return list;
     }
+    public List<Double> getTrophyHistoryAsList(){
+
+        List<Double> list = new ArrayList<>();
+        int i = 1;
+
+        for(String s : this.battleEvents){
+            if(i<3){
+                i++;
+                continue;
+            }
+            String[] parts = s.split(",");
+            list.add(Double.valueOf(parts[12]));
+        }
+        return list;
+    }
+
 
     public String getTicketUseHistory(){
 
@@ -174,6 +198,38 @@ public class Hero {
         return history;
     }
 
+    public List<Double> getBossesTaggedHistoryAsList(){
+
+        List<Double> list = new ArrayList<>();
+        int i = 1;
+
+        for(String s : this.battleEvents){
+            if(i<3){
+                i++;
+                continue;
+            }
+            String[] parts = s.split(",");
+            list.add(Double.valueOf(parts[26]));
+        }
+        return list;
+    }
+
+    public List<Double> getTicketsHistoryAsList(){
+
+        List<Double> list = new ArrayList<>();
+        int i = 1;
+
+        for(String s : this.battleEvents){
+            if(i<3){
+                i++;
+                continue;
+            }
+            String[] parts = s.split(",");
+            list.add(Double.valueOf(parts[24]));
+        }
+        return list;
+    }
+
     public String getHeroPowerHistory(){
 
         String history = this.heroName + ":" +
@@ -190,6 +246,21 @@ public class Hero {
             history += "\n  " + parts[0] + ":   " + parts[5];
         }
         return history;
+    }
+    public List<Double> getHeroPowerHistoryAsList(){
+
+        List<Double> list = new ArrayList<>();
+        int i = 1;
+
+        for(String s : this.battleEvents){
+            if(i<3){
+                i++;
+                continue;
+            }
+            String[] parts = s.split(",");
+            list.add(Double.valueOf(parts[5]));
+        }
+        return list;
     }
 
     public String getGuildExpHistory(){
@@ -208,6 +279,22 @@ public class Hero {
             history += "\n  " + parts[0] + ":   " + parts[14];
         }
         return history;
+    }
+
+    public List<Double> getGuildExpHistoryAsList(){
+
+        List<Double> list = new ArrayList<>();
+        int i = 1;
+
+        for(String s : this.battleEvents){
+            if(i<3){
+                i++;
+                continue;
+            }
+            String[] parts = s.split(",");
+            list.add(Double.valueOf(parts[14]));
+        }
+        return list;
     }
 
     public String getGuildDonatesHistory(){
@@ -389,7 +476,7 @@ public class Hero {
         return Integer.valueOf(parts[12]);
     }
 
-    public int guildExp(int weekNmbr){
+    public int getGuildExp(int weekNmbr){
         String event = "";
 
         int i = 1;

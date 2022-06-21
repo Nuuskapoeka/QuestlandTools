@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class GUI {
+public class BuilderGUI extends JPanel{
 
     private static List<String> items;
     private static Items itemList;
@@ -29,14 +29,14 @@ public class GUI {
     private static Build currentlyLoaded;
 
     private static String buildPath;
-    public GUI(List<String> items, Items itemList){
+    public BuilderGUI(List<String> items, Items itemList){
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
         this.labels = new ArrayList<>();
         this.currentlyLoaded = new Build(itemList);
     }
-    public GUI(List<String> items, Items itemList, String buildPath){
+    public BuilderGUI(List<String> items, Items itemList, String buildPath){
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
@@ -47,6 +47,7 @@ public class GUI {
 
     private static void createAndShowGUI() {
         //Create and set up the window.
+
         JFrame frame = new JFrame("Build Planner");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -213,9 +214,9 @@ public class GUI {
             //System.out.println(itemList.getItem(s).getSlot());
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
                 //System.out.println(itemList.getItem(s).getSlot());
-                filtered.add(itemList.getItem(s).getIdentifier());
+                filtered.add(itemList.getItem(s).getName());
             }else if(itemList.getItem(s).getType().equalsIgnoreCase(type)){
-                filtered.add(itemList.getItem(s).getIdentifier());
+                filtered.add(itemList.getItem(s).getName());
             }
         }
         return filtered;

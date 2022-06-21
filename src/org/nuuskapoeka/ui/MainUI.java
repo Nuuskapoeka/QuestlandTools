@@ -21,8 +21,11 @@ public class MainUI {
 
     private Grouper grouper;
     private Items itemList;
-    private GUI gui;
+    private BuilderGUI builderGui;
+    private GraphPanel graphGUI;
     private CraftSolver craftSolver;
+
+    private GUI gui;
 
     public MainUI() throws FileNotFoundException {
         r = new Scanner(System.in);
@@ -35,6 +38,9 @@ public class MainUI {
         this.itemList = new Items();
 
         this.craftSolver = new CraftSolver(itemList);
+
+        //this.gui = new GUI(guild,itemList.getItemNames(),itemList);
+
     }
     public void startBuilder() throws FileNotFoundException {
     	Scanner r = new Scanner(System.in);
@@ -43,13 +49,14 @@ public class MainUI {
     	System.out.println("Build file location:");
     	String b = r.nextLine();
     	itemList.load(s);
-        this.gui = new GUI(itemList.getItemNames(), itemList);
+        this.builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
         //this.itemList.clearEmpty();
-        gui.startGUI();
-        gui.loadBuildIn(itemList.loadBuild(b).getFullBuild());
+        builderGui.startGUI();
+        builderGui.loadBuildIn(itemList.loadBuild(b).getFullBuild());
     }
 
     public void startAnalyzer() throws FileNotFoundException {
+        start.run();
         while(true) {
             System.out.println("Command: ");
             System.out.print("> ");
@@ -90,8 +97,18 @@ public class MainUI {
                 grouper.makeGroups();
             }else if(preFix.contains("build")){
                 startBuild();
+            }else if(preFix.contains("graph")){
+                GUI.createAndShowGUI();
             }
         }
+    }
+
+    private List<Double> convertList(List<Integer> data){
+        List<Double> list = new ArrayList<>();
+        for(int i : data){
+            list.add((double) i);
+        }
+        return list;
     }
 
     public void start() throws IOException {
@@ -104,9 +121,10 @@ public class MainUI {
         //this.itemList.clearEmpty();
         //this.itemList.findLength(15,"____E__________", "SACROS");
         //gui.startGUI();
-        startBuilder();
+        //startBuilder();
         //this.start.run();
         //grouper.findSoloers();
+        this.gui = new GUI(guild,itemList.getItemNames(),itemList);
         startAnalyzer();
         for(Hero h : this.guild.getHeroes()){
             h.save();
