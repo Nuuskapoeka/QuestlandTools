@@ -179,7 +179,7 @@ public class Items {
                 //System.out.println(getItem(s));
             }
         }
-        System.out.println("Loaded");
+        //System.out.println("Loaded");
         return build;
     }
     public Build loadBuild(List<String> buildList) throws FileNotFoundException {

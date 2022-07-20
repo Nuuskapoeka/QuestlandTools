@@ -1,5 +1,6 @@
 package org.nuuskapoeka;
 
+import org.nuuskapoeka.domain.Config;
 import org.nuuskapoeka.logic.Copy;
 import org.nuuskapoeka.ui.MainUI;
 
@@ -10,7 +11,9 @@ public class Main {
 
     public static void main(String[] args) throws IOException {
 
-        MainUI ui = new MainUI();
+        Config config = new Config("config.txt");
+
+        MainUI ui = new MainUI(config);
         ui.start();
 
     }

@@ -2,6 +2,7 @@ package org.nuuskapoeka.ui;
 
 import org.nuuskapoeka.domain.Guild;
 import org.nuuskapoeka.domain.Hero;
+import org.nuuskapoeka.logic.BarChart;
 import org.nuuskapoeka.logic.BuilderGUI;
 import org.nuuskapoeka.logic.GraphPanel;
 import org.nuuskapoeka.logic.Items;
@@ -40,6 +41,7 @@ public class GUI {
 
         //Display the window.
         frame.add(graphPanel());
+        //frame.add(new BarChart(convertList(guild.getGuildScores()),guild));
         frame.pack();
         frame.setSize(1200,800);
         frame.setVisible(true);
@@ -87,8 +89,6 @@ public class GUI {
                     }else if(ticketsRadio.isSelected()){
                         panel.add(new GraphPanel(guild.getHero(memberList.getSelectedItem().toString()).getTicketsHistoryAsList(),guild,memberList));
                     }
-                    panel.revalidate();
-                    panel.repaint();
                 }else{
                     if(panel.getComponentCount() > 1){
                         panel.remove(1);
@@ -99,9 +99,9 @@ public class GUI {
                     }else if(trophiesRadio.isSelected()){
                         panel.add(new GraphPanel(convertList(guild.getGuildScores()),guild,memberList));
                     }
-                    panel.revalidate();
-                    panel.repaint();
                 }
+                panel.revalidate();
+                panel.repaint();
             }
         });
 
@@ -134,6 +134,7 @@ public class GUI {
         JPanel panel = new JPanel();
 
         JPanel buttonPane = new JPanel();
+        buttonPane.setAlignmentX(Component.TOP_ALIGNMENT);
         JPanel contentPane = new JPanel();
 
         JButton button = new JButton("Builder");
@@ -165,11 +166,11 @@ public class GUI {
             }
         });
 
-        BoxLayout grid = new BoxLayout(buttonPane,BoxLayout.X_AXIS);
+        BoxLayout grid = new BoxLayout(buttonPane,BoxLayout.Y_AXIS);
         buttonPane.setLayout(grid);
         buttonPane.add(button);
         buttonPane.add(button2);
-        GridLayout layout = new GridLayout(2, 1);
+        FlowLayout layout = new FlowLayout(FlowLayout.LEFT);
         panel.setLayout(layout);
         panel.add(buttonPane);
         panel.add(contentPane);

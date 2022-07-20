@@ -49,7 +49,7 @@ public class BuilderGUI extends JPanel{
         //Create and set up the window.
 
         JFrame frame = new JFrame("Build Planner");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Display the window.
         frame.add(createMainPanel());
@@ -243,7 +243,7 @@ public class BuilderGUI extends JPanel{
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(itemList.getItem(list.getSelectedItem().toString()));
+                //System.out.println(itemList.getItem(list.getSelectedItem().toString()));
                 items.remove(list.getSelectedItem().toString());
             }
         });
@@ -300,7 +300,7 @@ public class BuilderGUI extends JPanel{
     }
     private static void createAndShowItemSearchGUI() throws FileNotFoundException {
         JFrame frame = new JFrame("Item Search");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JPanel panel = new JPanel();
         CardLayout cl = new CardLayout(1,1);

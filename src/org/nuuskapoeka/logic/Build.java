@@ -97,7 +97,7 @@ public class Build {
         //System.out.println("total = " + (health+attack+defence+magic));
 
         for(BuildSlot bs : fullBuild ){
-            System.out.println(bs + "\n");
+            //System.out.println(bs + "\n");
             if(bs.getActiveLinks().size()==1){
                 oneLinking.add(bs);
             }else if(bs.getActiveLinks().size()==0){

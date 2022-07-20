@@ -14,7 +14,7 @@ public class BarChart extends JPanel {
     private int heigth = 400;
     private int padding = 25;
     private int labelPadding = 25;
-    private Color lineColor = new Color(44, 102, 230, 180);
+    private Color barColor = new Color(44, 102, 230, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
@@ -23,13 +23,11 @@ public class BarChart extends JPanel {
     private List<Double> scores;
     private static Guild guild;
 
-    private static JComboBox heroList;
     private static JFrame frame;
 
-    public BarChart(List<Double> scores, Guild guild, JComboBox heroList) {
+    public BarChart(List<Double> scores, Guild guild) {
         this.scores = scores;
         this.guild = guild;
-        this.heroList = heroList;
     }
 
     @Override
@@ -84,11 +82,7 @@ public class BarChart extends JPanel {
                     g2.drawLine(x0, getHeight() - padding - labelPadding - 1 - pointWidth, x1, padding);
                     g2.setColor(Color.BLACK);
                     String xLabel = "label";
-                    if(guild.getHero(heroList.getSelectedItem().toString()) != null){
-                        xLabel = guild.getHero(heroList.getSelectedItem().toString()).getEvents().get(i) + "";
-                    }else{
-                        xLabel = guild.getEvents().get(i).toString();
-                    }
+                    xLabel = guild.getEvents().get(i).toString();
                     FontMetrics metrics = g2.getFontMetrics();
                     int labelWidth = metrics.stringWidth(xLabel);
                     g2.drawString(xLabel, x0 - labelWidth / 2, y0 + metrics.getHeight() + 3);
@@ -102,24 +96,15 @@ public class BarChart extends JPanel {
         g2.drawLine(padding + labelPadding, getHeight() - padding - labelPadding, getWidth() - padding, getHeight() - padding - labelPadding);
 
         Stroke oldStroke = g2.getStroke();
-        g2.setColor(lineColor);
+        g2.setColor(barColor);
         g2.setStroke(GRAPH_STROKE);
         for (int i = 0; i < graphPoints.size() - 1; i++) {
             int x1 = graphPoints.get(i).x;
-            int y1 = graphPoints.get(i).y;
-            int x2 = graphPoints.get(i + 1).x;
-            int y2 = graphPoints.get(i + 1).y;
-            g2.drawLine(x1, y1, x2, y2);
-        }
-
-        g2.setStroke(oldStroke);
-        g2.setColor(pointColor);
-        for (int i = 0; i < graphPoints.size(); i++) {
-            int x = graphPoints.get(i).x - pointWidth / 2;
-            int y = graphPoints.get(i).y - pointWidth / 2;
-            int ovalW = pointWidth;
-            int ovalH = pointWidth;
-            g2.fillOval(x, y, ovalW, ovalH);
+            int y1 = graphPoints.get(i).y-100;
+            int x2 = getWidth()/scores.size();
+            int y2 = (int)((scores.get(i)-getMinScore())/heigth);
+            System.out.println((int)numberYDivisions/(scores.get(i)) + ", " + heigth);
+            g2.fillRect(x1, y1, x2, y2);
         }
     }
     //    @Override

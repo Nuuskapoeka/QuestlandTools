@@ -1,5 +1,6 @@
 package org.nuuskapoeka.ui;
 
+import org.nuuskapoeka.domain.Config;
 import org.nuuskapoeka.domain.Guild;
 import org.nuuskapoeka.domain.Hero;
 import org.nuuskapoeka.logic.*;
@@ -14,6 +15,8 @@ import java.util.*;
 
 public class MainUI {
 
+    private Config config;
+
     private Scanner r;
     private Guild guild;
     private StartUp start;
@@ -27,8 +30,9 @@ public class MainUI {
 
     private GUI gui;
 
-    public MainUI() throws FileNotFoundException {
+    public MainUI(Config c) throws FileNotFoundException {
         r = new Scanner(System.in);
+        config = c;
         this.guild = new Guild("Fooking Horsemen");
         this.start = new StartUp(guild);
 
@@ -39,7 +43,7 @@ public class MainUI {
 
         this.craftSolver = new CraftSolver(itemList);
 
-        //this.gui = new GUI(guild,itemList.getItemNames(),itemList);
+        this.gui = new GUI(guild,itemList.getItemNames(),itemList);
 
     }
     public void startBuilder() throws FileNotFoundException {
@@ -52,11 +56,13 @@ public class MainUI {
         this.builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
         //this.itemList.clearEmpty();
         builderGui.startGUI();
+        //gui.createAndShowGUI();
         builderGui.loadBuildIn(itemList.loadBuild(b).getFullBuild());
     }
 
     public void startAnalyzer() throws FileNotFoundException {
-        start.run();
+        //start.run();
+        //startBuilder();
         while(true) {
             System.out.println("Command: ");
             System.out.print("> ");
@@ -64,8 +70,25 @@ public class MainUI {
             String[] parts = command.split(" ");
             String preFix = parts[0];
             if (command.equals("close")) {
+                try{
+                    config.write();
+                }catch (IOException e){
+                    e.printStackTrace();
+                }
                 break;
-            } else if (preFix.contains("copy")) {
+            }else if(command.equals("builder")){
+                if(config.isBuilderStatus()){
+                    startBuilder();
+                }
+            }else if(command.equals("tracker")){
+                if(config.isTrackerStatus()){
+                    start.run();
+                    GUI.createAndShowGUI();
+                }
+            }
+
+            /*
+            else if (preFix.contains("copy")) {
                 copy(command);
             } else if (preFix.contains("analyze")) {
                 analyze(command);
@@ -100,6 +123,8 @@ public class MainUI {
             }else if(preFix.contains("graph")){
                 GUI.createAndShowGUI();
             }
+
+             */
         }
     }
 
@@ -109,6 +134,15 @@ public class MainUI {
             list.add((double) i);
         }
         return list;
+    }
+
+    private void editConfig(String command){
+        String[] parts = command.split(" ");
+        if(parts[0].equals("enable")){
+            config.enable(parts[1]);
+        }else if(parts[0].equalsIgnoreCase("disable")){
+            config.disable(parts[1]);
+        }
     }
 
     public void start() throws IOException {

@@ -18,11 +18,11 @@ public class Writer {
     public void write(List<String> lines) throws IOException {
         for(String s: lines){
             write.write(s + "\n");
-            System.out.println(s + "\n");
+            //System.out.println(s + "\n");
         }
         write.flush();
         write.close();
-        System.out.println(f.getAbsolutePath());
+        //System.out.println(f.getAbsolutePath());
     }
     public void write(String line) throws IOException {
         write.write(line);
