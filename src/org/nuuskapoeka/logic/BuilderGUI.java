@@ -67,6 +67,12 @@ public class BuilderGUI extends JPanel{
         JLabel magic = new JLabel();
         JLabel total = new JLabel();
 
+        JLabel maxHealth = new JLabel();
+        JLabel maxAttack = new JLabel();
+        JLabel maxDefence = new JLabel();
+        JLabel maxMagic = new JLabel();
+        JLabel maxTotal = new JLabel();
+
         JPanel equipped = new JPanel();
         GridLayout equipLayout = new GridLayout(2,5);
         equipped.setLayout(equipLayout);
@@ -85,7 +91,6 @@ public class BuilderGUI extends JPanel{
 
         JPanel magicPanel = new JPanel();
         BoxLayout magicLayout = new BoxLayout(magicPanel,BoxLayout.Y_AXIS);
-
         magicPanel.setLayout(magicLayout);
 
         JPanel collections = new JPanel();
@@ -97,9 +102,12 @@ public class BuilderGUI extends JPanel{
         collections.add(magicPanel);
 
         JPanel miscPanel = new JPanel();
-        BoxLayout miscLayout = new BoxLayout(miscPanel,BoxLayout.X_AXIS);
+        GridLayout miscLayout = new GridLayout(1,4);
+        miscPanel.setLayout(miscLayout);
         JPanel statPanel = new JPanel();
         BoxLayout statLayout = new BoxLayout(statPanel,BoxLayout.Y_AXIS);
+        JPanel maxStatPanel = new JPanel();
+        BoxLayout maxStatLayout = new BoxLayout(maxStatPanel,BoxLayout.Y_AXIS);
         statPanel.setLayout(statLayout);
         statPanel.setSize(200,50);
         statPanel.add(health);
@@ -107,15 +115,21 @@ public class BuilderGUI extends JPanel{
         statPanel.add(defence);
         statPanel.add(magic);
         statPanel.add(total);
+        maxStatPanel.setLayout(maxStatLayout);
+        maxStatPanel.add(maxHealth);
+        maxStatPanel.add(maxAttack);
+        maxStatPanel.add(maxDefence);
+        maxStatPanel.add(maxMagic);
+        maxStatPanel.add(maxTotal);
 
         JPanel orbPanel = new JPanel();
         GridLayout orbLayout = new GridLayout(3,1);
         JPanel orbEnhPanel = new JPanel();
         orbEnhPanel.setLayout(orbLayout);
-        JTextField orbBaseField = new JTextField("average orb potential");
-        JTextField orbPotField = new JTextField("average orb potential");
-        JTextField orbEnhField = new JTextField("average orb enhance");
-        JTextField guildBonus = new JTextField("guild bonus");
+        JTextField orbBaseField = new JTextField("2000");
+        JTextField orbPotField = new JTextField("200");
+        JTextField orbEnhField = new JTextField("8");
+        JTextField guildBonus = new JTextField("1.15");
 
         orbEnhPanel.add(orbBaseField);
         orbEnhPanel.add(orbPotField);
@@ -170,6 +184,7 @@ public class BuilderGUI extends JPanel{
         weaponsPanel.add(createPanel("off hand"));
 
         miscPanel.add(weaponsPanel);
+        miscPanel.add(maxStatPanel);
 
         JButton button = new JButton("Check Links");
 
@@ -200,6 +215,11 @@ public class BuilderGUI extends JPanel{
                     defence.setText(currentlyLoaded.getDefence());
                     magic.setText(currentlyLoaded.getMagic());
                     total.setText(currentlyLoaded.getTotal());
+                    maxHealth.setText(currentlyLoaded.getMaxHealth());
+                    maxAttack.setText(currentlyLoaded.getMaxAttack());
+                    maxDefence.setText(currentlyLoaded.getMaxDefence());
+                    maxMagic.setText(currentlyLoaded.getMaxMagic());
+                    maxTotal.setText(currentlyLoaded.getMaxTotal());
                     currentlyLoaded.checkOverview();
                     saveBuild(build);
                 } catch (IOException fileNotFoundException) {

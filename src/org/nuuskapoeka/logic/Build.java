@@ -154,6 +154,29 @@ public class Build {
         int total = (int) ((maxAttack+maxMagic+maxDefence+maxHealth+orbPower)*guildBonus);
         return "health = " + (maxHealth+orbPower/4)*guildBonus+ "\nattack = " + (maxAttack+orbPower/4)*guildBonus+ "\ndefence = " + (maxDefence+orbPower/4)*guildBonus + "\nmagic = " + (maxMagic+orbPower/4)*guildBonus + "\ntotal = " + total;
     }
+    public String getMaxHealth() {
+        int orbPower = getOrbPowerEst();
+        return "health = " +Math.round((maxHealth+orbPower/4)*guildBonus);
+    }
+    public String getMaxAttack(){
+        int orbPower = getOrbPowerEst();
+        return "attack = " + Math.round((maxAttack+orbPower/4)*guildBonus);
+    }
+
+    public String getMaxDefence() {
+        int orbPower = getOrbPowerEst();
+        return "defence = " +Math.round((maxDefence+orbPower/4)*guildBonus);
+    }
+    public String getMaxMagic(){
+        int orbPower = getOrbPowerEst();
+        return "magic = " +Math.round((maxMagic+orbPower/4)*guildBonus);
+    }
+
+    public String getMaxTotal(){
+        int orbPower = getOrbPowerEst();
+        int total = (int) ((maxAttack+maxMagic+maxDefence+maxHealth+orbPower)*guildBonus);
+        return "total = " + total;
+    }
 
     public String getHealth() {
         return "health = " + health;
