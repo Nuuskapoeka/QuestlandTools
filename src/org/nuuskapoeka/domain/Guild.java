@@ -42,6 +42,9 @@ public class Guild {
     public List<Integer> getEvents(){
         return this.events;
     }
+    public void addEvent(int e){
+        this.events.add(e);
+    }
 
     public int getMaxScores(int week){
 

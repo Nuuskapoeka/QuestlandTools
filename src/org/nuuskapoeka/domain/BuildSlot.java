@@ -7,15 +7,18 @@ public class BuildSlot {
 
     private Item item;
     private boolean isLinked;
+    private boolean isOrbLinked;
 
     private List<String> activeLinks;
 
     public BuildSlot(){
         this.isLinked = false;
+        this.isOrbLinked = false;
     }
     public BuildSlot(Item item){
         this.item = item;
         this.isLinked = false;
+        isOrbLinked = false;
         this.activeLinks = new ArrayList<>();
     }
 

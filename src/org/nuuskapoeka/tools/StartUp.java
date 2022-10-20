@@ -1,5 +1,6 @@
 package org.nuuskapoeka.tools;
 
+import org.nuuskapoeka.domain.Config;
 import org.nuuskapoeka.domain.Guild;
 import org.nuuskapoeka.domain.Hero;
 
@@ -12,9 +13,11 @@ import java.util.Scanner;
 public class StartUp {
 
     private Guild guild;
+    private Config config;
 
-    public StartUp(Guild g){
+    public StartUp(Guild g, Config c){
         this.guild = g;
+        config = c;
     }
     public String[] splitRow(String s){
         String[] parts = s.split(",",2);
@@ -23,11 +26,27 @@ public class StartUp {
     }
     public void run(){
 
+        int startWeek = config.getStartWeek();
+        int weekInc = 0;
+
         List<String> files = new ArrayList<>();
         try {
-            Scanner fileScanner = new Scanner(new File("horsemen\\horsemen_battle_events.txt"));
-            while(fileScanner.hasNextLine()){
-                files.add(fileScanner.nextLine());
+            //Scanner fileScanner = new Scanner(new File("horsemen\\horsemen_battle_events.txt"));
+            while(true){
+                File f;
+                if((startWeek+weekInc)%2==0){
+                    f = new File(config.getPathToGuildFiles() + "red_horsemen_" + (startWeek+weekInc) + ".csv");
+                }else{
+                    f = new File(config.getPathToGuildFiles() +  "blue_horsemen_" + (startWeek+weekInc) + ".csv");
+                }
+
+                if(!f.exists()){
+                    //System.out.println(f.getPath());
+                    break;
+                }
+                files.add(f.getPath());
+                //System.out.println(f.getAbsolutePath());
+                weekInc++;
             }
 
             for(String f: files){

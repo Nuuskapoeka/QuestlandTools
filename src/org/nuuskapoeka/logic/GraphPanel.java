@@ -17,25 +17,36 @@ public class GraphPanel extends JPanel {
     private int padding = 25;
     private int labelPadding = 25;
     private Color lineColor = new Color(44, 102, 230, 180);
+    private Color altLineColor = new Color(230, 44, 44, 180);
     private Color pointColor = new Color(100, 100, 100, 180);
     private Color gridColor = new Color(200, 200, 200, 200);
     private static final Stroke GRAPH_STROKE = new BasicStroke(2f);
     private int pointWidth = 4;
     private int numberYDivisions = 10;
     private List<Double> scores;
+    private List<Double> compScores;
     private static Guild guild;
 
     private static JComboBox heroList;
     private static JFrame frame;
 
+    private static boolean isComparison;
+
     public GraphPanel(List<Double> scores, Guild guild, JComboBox heroList) {
         this.scores = scores;
         this.guild = guild;
         this.heroList = heroList;
+        compScores = new ArrayList<>();
+    }
+
+    public void setComparison(List<Double> scores){
+        isComparison = true;
+        compScores = scores;
     }
 
     @Override
     protected void paintComponent(Graphics g) {
+        isComparison = false;
         super.paintComponent(g);
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -48,6 +59,15 @@ public class GraphPanel extends JPanel {
             int x1 = (int) (i * xScale + padding + labelPadding);
             int y1 = (int) ((getMaxScore() - scores.get(i)) * yScale + padding);
             graphPoints.add(new Point(x1, y1));
+        }
+        List<Point> graphPoints2 = new ArrayList<>();
+        if(isComparison){
+            for (int i = 0; i < compScores.size(); i++) {
+                int x1 = (int) (i * xScale + padding + labelPadding);
+                int y1 = (int) ((getMaxScore() - compScores.get(i)) * yScale + padding);
+                graphPoints.add(new Point(x1, y1));
+                graphPoints2.add(new Point(x1, y1));
+            }
         }
 
         // draw white background
@@ -112,6 +132,20 @@ public class GraphPanel extends JPanel {
             int x2 = graphPoints.get(i + 1).x;
             int y2 = graphPoints.get(i + 1).y;
             g2.drawLine(x1, y1, x2, y2);
+        }
+
+
+        if(isComparison){
+            g2.setColor(altLineColor);
+            g2.setStroke(GRAPH_STROKE);
+            for (int i = 0; i < graphPoints2.size() - 1; i++) {
+                int x1 = graphPoints2.get(i).x;
+                int y1 = graphPoints2.get(i).y * 2;
+                int x2 = graphPoints2.get(i + 1).x;
+                int y2 = graphPoints2.get(i + 1).y * 2;
+                g2.drawLine(x1, y1, x2, y2);
+            }
+
         }
 
         g2.setStroke(oldStroke);

@@ -12,10 +12,12 @@ import java.util.Locale;
 public class Items {
 
     private List<Item> itemList;
+    private List<Item> weapons;
     private boolean isLoaded;
 
     public Items(){
         itemList = new ArrayList<>();
+        weapons = new ArrayList<>();
         isLoaded = false;
     }
     public void load(String file) throws FileNotFoundException {
@@ -44,9 +46,36 @@ public class Items {
                     parts[12]);
             itemList.add(i);
         }
+        loadWeapons("weaponData.csv");
         isLoaded = true;
         for (Item i : itemList){
             //System.out.println(i);
+        }
+
+    }
+    public void loadWeapons(String file) throws FileNotFoundException {
+        Reader r = new Reader(new File(file));
+
+        for(String s : r.read()){
+            String[] parts = s.split(",");
+            System.out.println(parts[1]);
+            Item i = new Item(parts[0].toUpperCase(),
+                    parts[1].toUpperCase(),
+                    null,
+                    parts[2].toUpperCase(),
+                    Integer.parseInt(parts[3]),
+                    Integer.parseInt(parts[4]),
+                    Integer.parseInt(parts[5]),
+                    Integer.parseInt(parts[6]),
+                    Integer.parseInt(parts[7]),
+                    null,
+                    null,
+                    null,
+                    null);
+            itemList.add(i);
+        }
+        for (Item i : weapons){
+            System.out.println(i);
         }
 
     }

@@ -96,6 +96,8 @@ public class BuilderGUI extends JPanel{
         collections.add(defencePanel);
         collections.add(magicPanel);
 
+        JPanel miscPanel = new JPanel();
+        BoxLayout miscLayout = new BoxLayout(miscPanel,BoxLayout.X_AXIS);
         JPanel statPanel = new JPanel();
         BoxLayout statLayout = new BoxLayout(statPanel,BoxLayout.Y_AXIS);
         statPanel.setLayout(statLayout);
@@ -106,12 +108,28 @@ public class BuilderGUI extends JPanel{
         statPanel.add(magic);
         statPanel.add(total);
 
+        JPanel orbPanel = new JPanel();
+        GridLayout orbLayout = new GridLayout(3,1);
+        JPanel orbEnhPanel = new JPanel();
+        orbEnhPanel.setLayout(orbLayout);
+        JTextField orbBaseField = new JTextField("average orb potential");
+        JTextField orbPotField = new JTextField("average orb potential");
+        JTextField orbEnhField = new JTextField("average orb enhance");
+        JTextField guildBonus = new JTextField("guild bonus");
+
+        orbEnhPanel.add(orbBaseField);
+        orbEnhPanel.add(orbPotField);
+        orbEnhPanel.add(orbEnhField);
+        orbEnhPanel.add(guildBonus);
+        orbPanel.add(orbEnhPanel);
+
+        miscPanel.add(statPanel);
+        miscPanel.add(orbPanel);
         //GridLayout gridLayout = new GridLayout(5,1);
         BoxLayout boxLayout = new BoxLayout(panel,BoxLayout.Y_AXIS);
 
         panel.setLayout(boxLayout);
 
-        //Add the ubiquitous "Hello World" label.
         JLabel label = new JLabel("Build Maker");
         equipped.add(createPanel("helm"));
         equipped.add(createPanel("chest"));
@@ -145,6 +163,14 @@ public class BuilderGUI extends JPanel{
         magicPanel.add(createPanel("magic"));
         magicPanel.add(createPanel("magic"));
 
+        JPanel weaponsPanel = new JPanel();
+        GridLayout weaponLayout = new GridLayout(2,1);
+        weaponsPanel.setLayout(weaponLayout);
+        weaponsPanel.add(createPanel("main hand"));
+        weaponsPanel.add(createPanel("off hand"));
+
+        miscPanel.add(weaponsPanel);
+
         JButton button = new JButton("Check Links");
 
         button.addActionListener(new ActionListener() {
@@ -162,8 +188,13 @@ public class BuilderGUI extends JPanel{
                 }
                 try {
                     currentlyLoaded = itemList.loadBuild(build);
+                    currentlyLoaded.setAvgOrbBase(Integer.valueOf(orbBaseField.getText()));
+                    currentlyLoaded.setAvgOrbPot(Integer.valueOf(orbPotField.getText()));
+                    currentlyLoaded.setAvgEnhance(Integer.valueOf(orbEnhField.getText()));
+                    currentlyLoaded.setGuildBonus(Double.valueOf(guildBonus.getText()));
                     currentlyLoaded.checkLinks();
                     checkLinks(currentlyLoaded);
+                    System.out.println(currentlyLoaded.getMaxStats());
                     health.setText(currentlyLoaded.getHealth());
                     attack.setText(currentlyLoaded.getAttack());
                     defence.setText(currentlyLoaded.getDefence());
@@ -179,7 +210,7 @@ public class BuilderGUI extends JPanel{
 
         panel.add(equipped);
         panel.add(collections);
-        panel.add(statPanel);
+        panel.add(miscPanel);
         panel.add(button);
 
         return panel;
@@ -215,7 +246,7 @@ public class BuilderGUI extends JPanel{
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
                 //System.out.println(itemList.getItem(s).getSlot());
                 filtered.add(itemList.getItem(s).getName());
-            }else if(itemList.getItem(s).getType().equalsIgnoreCase(type)){
+            }else if((itemList.getItem(s).getType()!= null) && itemList.getItem(s).getType().equalsIgnoreCase(type)){
                 filtered.add(itemList.getItem(s).getName());
             }
         }
@@ -235,9 +266,13 @@ public class BuilderGUI extends JPanel{
     public static JPanel createPanel(String type){
         JLabel label = new JLabel(type);
 
+        String[] types = {"health", "attack", "defence", "magic"};
+
         JComboBox list = new JComboBox(filterType(type).toArray());
         list.setSelectedIndex(-1);
         list.setMaximumSize(new Dimension(250,35));
+
+        JCheckBox orbLink = new JCheckBox();
 
         JButton button = new JButton("print");
         button.addActionListener(new ActionListener() {
@@ -262,6 +297,10 @@ public class BuilderGUI extends JPanel{
         panel.add(label);
         panel.add(list);
         panel.add(label2);
+        //panel.add(orbLink);
+        if(!Arrays.asList(types).contains(type)){
+            //panel.add(orbLink);
+        }
         label2.setSize(new Dimension(label2.getWidth(),label2.getHeight()*2));
 
         panels.add(list);
@@ -376,7 +415,7 @@ public class BuilderGUI extends JPanel{
         frame.add(panel);
         frame.pack();
         frame.setSize(300,500);
-        frame.setVisible(true);
+        //frame.setVisible(true);
     }
 
 }

@@ -14,6 +14,12 @@ public class Item {
     private int attack;
     private int defence;
     private int magic;
+
+    private int healthInc;
+    private int attackInc;
+    private int defenceInc;
+    private int magicInc;
+
     private List<String> links;
     private String typeID;
 
@@ -44,6 +50,8 @@ public class Item {
         this.links.add(link2);
         if(!(link3 == null)){
             this.links.add(link3);
+        }else{
+            this.links.add(null);
         }
         this.typeID = typeID;
     }
@@ -132,6 +140,48 @@ public class Item {
     public void setMagic(int magic) {
         this.magic = magic;
     }
+
+    public int getHealthInc() {
+
+        int sum = health+attack+defence+magic;
+        double pot = (double)potential/sum;
+        return (int) Math.round(health*pot);
+    }
+
+    public void setHealthInc(int healthInc) {
+        this.healthInc = healthInc;
+    }
+
+    public int getAttackInc() {
+        int sum = health+attack+defence+magic;
+        double pot = (double)potential/sum;
+        return (int) Math.round(attack*pot);
+    }
+
+    public void setAttackInc(int attackInc) {
+        this.attackInc = attackInc;
+    }
+
+    public int getDefenceInc() {
+        int sum = health+attack+defence+magic;
+        double pot = (double)potential/sum;
+        return (int) Math.round(defence*pot);
+    }
+
+    public void setDefenceInc(int defenceInc) {
+        this.defenceInc = defenceInc;
+    }
+
+    public int getMagicInc() {
+        int sum = health+attack+defence+magic;
+        double pot = (double)potential/sum;
+        return (int) Math.round(magic*pot);
+    }
+
+    public void setMagicInc(int magicInc) {
+        this.magicInc = magicInc;
+    }
+
 
     public List<String> getLinks(){
         return this.links;

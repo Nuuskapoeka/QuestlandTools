@@ -14,14 +14,11 @@ import java.text.DecimalFormat;
 import java.util.*;
 
 public class MainUI {
-
     private Config config;
-
     private Scanner r;
     private Guild guild;
     private StartUp start;
     private Saver saver;
-
     private Grouper grouper;
     private Items itemList;
     private BuilderGUI builderGui;
@@ -34,7 +31,7 @@ public class MainUI {
         r = new Scanner(System.in);
         config = c;
         this.guild = new Guild("Fooking Horsemen");
-        this.start = new StartUp(guild);
+        this.start = new StartUp(guild, config);
 
         this.saver = new Saver(guild);
 
@@ -43,15 +40,15 @@ public class MainUI {
 
         this.craftSolver = new CraftSolver(itemList);
 
-        this.gui = new GUI(guild,itemList.getItemNames(),itemList);
+        this.gui = new GUI(guild,itemList.getItemNames(),itemList,config);
 
     }
     public void startBuilder() throws FileNotFoundException {
     	Scanner r = new Scanner(System.in);
-    	System.out.println("Item file location:");
-    	String s = r.nextLine();
-    	System.out.println("Build file location:");
-    	String b = r.nextLine();
+    	//System.out.println("Item file location:");
+    	String s = config.getBuilderSource();
+    	//System.out.println("Build file location:");
+    	String b = config.getBuildSource();
     	itemList.load(s);
         this.builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
         //this.itemList.clearEmpty();
@@ -72,10 +69,10 @@ public class MainUI {
             if (command.equals("close")) {
                 try{
                     config.write();
+                    break;
                 }catch (IOException e){
                     e.printStackTrace();
                 }
-                break;
             }else if(command.equals("builder")){
                 if(config.isBuilderStatus()){
                     startBuilder();
@@ -85,6 +82,12 @@ public class MainUI {
                     start.run();
                     GUI.createAndShowGUI();
                 }
+            }else if(command.contains("buildpath")){
+                String[] part = command.split(" ");
+                config.setBuildSource(part[1]);
+            }else if(command.contains("itemspath")){
+                String[] part = command.split(" ");
+                config.setBuilderSource(part[1]);
             }
 
             /*
@@ -158,8 +161,9 @@ public class MainUI {
         //startBuilder();
         //this.start.run();
         //grouper.findSoloers();
-        this.gui = new GUI(guild,itemList.getItemNames(),itemList);
-        startAnalyzer();
+        this.gui = new GUI(guild,itemList.getItemNames(),itemList,config);
+        //startAnalyzer();
+        gui.menuInterface();
         for(Hero h : this.guild.getHeroes()){
             h.save();
         }
