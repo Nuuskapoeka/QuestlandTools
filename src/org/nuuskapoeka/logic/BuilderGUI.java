@@ -48,7 +48,7 @@ public class BuilderGUI extends JPanel{
     private static void createAndShowGUI() {
         //Create and set up the window.
 
-        JFrame frame = new JFrame("Build Planner");
+        JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061");
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         //Display the window.
@@ -123,7 +123,7 @@ public class BuilderGUI extends JPanel{
         maxStatPanel.add(maxTotal);
 
         JPanel orbPanel = new JPanel();
-        GridLayout orbLayout = new GridLayout(3,1);
+        GridLayout orbLayout = new GridLayout(8,1);
         JPanel orbEnhPanel = new JPanel();
         orbEnhPanel.setLayout(orbLayout);
         JTextField orbBaseField = new JTextField("2000");
@@ -131,9 +131,13 @@ public class BuilderGUI extends JPanel{
         JTextField orbEnhField = new JTextField("8");
         JTextField guildBonus = new JTextField("1.15");
 
+        orbEnhPanel.add(new JLabel("Orb Base Power:"));
         orbEnhPanel.add(orbBaseField);
+        orbEnhPanel.add(new JLabel("Orb Potential:"));
         orbEnhPanel.add(orbPotField);
+        orbEnhPanel.add(new JLabel("Orb Enhance:"));
         orbEnhPanel.add(orbEnhField);
+        orbEnhPanel.add(new JLabel("Guild Bonus:"));
         orbEnhPanel.add(guildBonus);
         orbPanel.add(orbEnhPanel);
 
