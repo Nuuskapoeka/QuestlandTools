@@ -213,7 +213,7 @@ public class BuilderGUI extends JPanel{
                     currentlyLoaded.setGuildBonus(Double.valueOf(guildBonus.getText()));
                     currentlyLoaded.checkLinks();
                     checkLinks(currentlyLoaded);
-                    System.out.println(currentlyLoaded.getMaxStats());
+                    //System.out.println(currentlyLoaded.getMaxStats());
                     health.setText(currentlyLoaded.getHealth());
                     attack.setText(currentlyLoaded.getAttack());
                     defence.setText(currentlyLoaded.getDefence());

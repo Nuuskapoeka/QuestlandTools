@@ -58,7 +58,7 @@ public class Items {
 
         for(String s : r.read()){
             String[] parts = s.split(",");
-            System.out.println(parts[1]);
+            //System.out.println(parts[1]);
             Item i = new Item(parts[0].toUpperCase(),
                     parts[1].toUpperCase(),
                     null,
@@ -75,7 +75,7 @@ public class Items {
             itemList.add(i);
         }
         for (Item i : weapons){
-            System.out.println(i);
+            //System.out.println(i);
         }
 
     }
@@ -225,7 +225,7 @@ public class Items {
                 //System.out.println(getItem(s));
             }
         }
-        System.out.println("Loaded");
+        //System.out.println("Loaded");
 
         return build;
     }

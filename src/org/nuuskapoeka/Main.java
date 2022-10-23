@@ -6,6 +6,7 @@ import org.nuuskapoeka.logic.Copy;
 import org.nuuskapoeka.logic.Items;
 import org.nuuskapoeka.ui.MainUI;
 
+import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 
@@ -17,10 +18,7 @@ public class Main {
 
 
         Build b = new Build(new Items());
-
-        System.out.println(b.getOrbPowerEst(2000,200,8));
-
-
+        
         MainUI ui = new MainUI(config);
         ui.startAnalyzer();
 

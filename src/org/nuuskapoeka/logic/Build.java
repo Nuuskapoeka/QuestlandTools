@@ -246,7 +246,7 @@ public class Build {
     private void addFullStats(BuildSlot slot){
         if(slot.getItem()!=null) {
             int reforge = (int) Math.round(slot.getItem().getPotential()*Math.pow(1.2,5)*100);
-            System.out.println(reforge);
+            //System.out.println(reforge);
             if(slot.getItem().getType()==null){
                 this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc())*Math.pow(1.2,5)+reforge/2);
                 this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc())*Math.pow(1.2,5)+reforge/2);
