@@ -25,7 +25,7 @@ public class BuilderGUI extends JPanel{
 
     private static List<JComboBox> panels;
     private static List<JLabel> labels;
-
+    private static List<JCheckBox> oneStats;
     private static Build currentlyLoaded;
 
     private static String buildPath;
@@ -296,7 +296,7 @@ public class BuilderGUI extends JPanel{
         list.setSelectedIndex(-1);
         list.setMaximumSize(new Dimension(250,35));
 
-        JCheckBox orbLink = new JCheckBox();
+        JCheckBox oneStat = new JCheckBox();
 
         JButton button = new JButton("print");
         button.addActionListener(new ActionListener() {
@@ -321,9 +321,9 @@ public class BuilderGUI extends JPanel{
         panel.add(label);
         panel.add(list);
         panel.add(label2);
-        //panel.add(orbLink);
+        oneStats.add(oneStat);
         if(!Arrays.asList(types).contains(type)){
-            //panel.add(orbLink);
+            //panel.add(oneStat);
         }
         label2.setSize(new Dimension(label2.getWidth(),label2.getHeight()*2));
 

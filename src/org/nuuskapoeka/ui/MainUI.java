@@ -88,6 +88,12 @@ public class MainUI {
             }else if(command.contains("itemspath")){
                 String[] part = command.split(" ");
                 config.setBuilderSource(part[1]);
+            }else if(command.contains("guildfiles")){
+                String[] part = command.split(" ");
+                config.setPathToGuildFiles(part[1]);
+            }else if(command.contains("startweek")){
+                String[] part = command.split(" ");
+                config.setStartWeek(Integer.parseInt(part[1]));
             }
 
             /*

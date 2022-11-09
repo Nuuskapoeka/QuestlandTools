@@ -105,8 +105,11 @@ public class Hero {
 
     public void addEvent(String s){
         this.battleEvents.add(s);
+        //System.out.println(s);
         String[] parts = s.split(",");
-        events.add(Integer.valueOf(parts[0]));
+        String[] parts2 = parts[0].split("\\\\");
+        //System.out.println(parts[0]);
+        events.add(Integer.valueOf(parts2[2]));
     }
 
     public List<Integer> getEvents(){

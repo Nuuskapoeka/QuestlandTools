@@ -18,7 +18,7 @@ public class Main {
 
 
         Build b = new Build(new Items());
-        
+
         MainUI ui = new MainUI(config);
         ui.startAnalyzer();
 

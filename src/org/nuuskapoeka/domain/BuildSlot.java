@@ -10,6 +10,7 @@ public class BuildSlot {
     private boolean isOrbLinked;
 
     private List<String> activeLinks;
+    private boolean oneStatReforge;
 
     public BuildSlot(){
         this.isLinked = false;
@@ -36,6 +37,13 @@ public class BuildSlot {
 
     public void setLinked(boolean linked) {
         isLinked = linked;
+    }
+    public void setOneStatReforge(boolean oneStatReforge){
+        this.oneStatReforge = oneStatReforge;
+    }
+
+    public boolean getOneStatReforge() {
+        return oneStatReforge;
     }
 
     public List<String> getActiveLinks(){

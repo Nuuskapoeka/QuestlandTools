@@ -33,12 +33,7 @@ public class StartUp {
         try {
             //Scanner fileScanner = new Scanner(new File("horsemen\\horsemen_battle_events.txt"));
             while(true){
-                File f;
-                if((startWeek+weekInc)%2==0){
-                    f = new File(config.getPathToGuildFiles() + "red_horsemen_" + (startWeek+weekInc) + ".csv");
-                }else{
-                    f = new File(config.getPathToGuildFiles() +  "blue_horsemen_" + (startWeek+weekInc) + ".csv");
-                }
+                File f = new File(config.getPathToGuildFiles() + (startWeek+weekInc) + ".csv");
 
                 if(!f.exists()){
                     //System.out.println(f.getPath());
@@ -50,7 +45,7 @@ public class StartUp {
             }
 
             for(String f: files){
-                File f2 = new File("horsemen\\2022\\blue_horsemen_5.csv");
+                File f2 = new File("horsemen\\2022\\5.csv");
                 Scanner r = new Scanner(new File(f));
                 //System.out.println(f);
                 try {

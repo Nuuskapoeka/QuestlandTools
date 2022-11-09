@@ -182,12 +182,7 @@ public class GUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 int w = Integer.parseInt(weekField.getText());
-                File f;
-                if(w%2==0){
-                    f = new File(config.getPathToGuildFiles() + "red_horsemen_" + w+ ".csv");
-                }else{
-                    f = new File(config.getPathToGuildFiles() +  "blue_horsemen_" + w + ".csv");
-                }
+                File f = new File(config.getPathToGuildFiles() + w + ".csv");
                 try {
                     Writer writer = new Writer(f);
                     writer.write(statPasteField.getText());
