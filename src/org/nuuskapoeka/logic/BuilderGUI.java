@@ -321,7 +321,7 @@ public class BuilderGUI extends JPanel{
         panel.add(label);
         panel.add(list);
         panel.add(label2);
-        oneStats.add(oneStat);
+        //oneStats.add(oneStat);
         if(!Arrays.asList(types).contains(type)){
             //panel.add(oneStat);
         }
