@@ -253,15 +253,8 @@ public class Build {
                 this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc())*Math.pow(1.2,5));
                 this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc())*Math.pow(1.2,5));
                 return;
-            } else if(slot.getItem().getType().equalsIgnoreCase("health")){
-                this.health += slot.getItem().getHealth()*1.3;
-                this.attack += slot.getItem().getAttack();
-                this.defence += slot.getItem().getDefence();
-                this.magic += slot.getItem().getMagic();
-                this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge)*1.3;
-                this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
-                this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
-                this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+            } else if(slot.getItem().getType().equalsIgnoreCase("health") || slot.getItem().getTypeID().contains("Col")){
+                addFullStatsColItem(slot);
             }else if(slot.getItem().getType().equalsIgnoreCase("attack")){
                 this.health += slot.getItem().getHealth()*1.15;
                 this.attack += slot.getItem().getAttack()*1.3;
@@ -293,6 +286,46 @@ public class Build {
         }
     }
 
+    private void addFullStatsColItem(BuildSlot slot){
+        int reforge = (int) Math.round(slot.getItem().getPotential()*Math.pow(1.2,5)*100);
+        if(slot.getItem().getType().equalsIgnoreCase("health")){
+            this.health += slot.getItem().getHealth()*1.3;
+            this.attack += slot.getItem().getAttack();
+            this.defence += slot.getItem().getDefence();
+            this.magic += slot.getItem().getMagic();
+            this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge)*1.3;
+            this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
+            this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
+            this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+        }else if(slot.getItem().getTypeID().equalsIgnoreCase("acol")){
+            this.health += slot.getItem().getHealth()*1.3;
+            this.attack += slot.getItem().getAttack();
+            this.defence += slot.getItem().getDefence();
+            this.magic += slot.getItem().getMagic();
+            this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
+            this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge)*1.3;
+            this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
+            this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+        }else if(slot.getItem().getTypeID().equalsIgnoreCase("dcol")){
+            this.health += slot.getItem().getHealth()*1.3;
+            this.attack += slot.getItem().getAttack();
+            this.defence += slot.getItem().getDefence();
+            this.magic += slot.getItem().getMagic();
+            this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
+            this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
+            this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge)*1.3;
+            this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+        }else if(slot.getItem().getTypeID().equalsIgnoreCase("mcol")){
+            this.health += slot.getItem().getHealth()*1.3;
+            this.attack += slot.getItem().getAttack();
+            this.defence += slot.getItem().getDefence();
+            this.magic += slot.getItem().getMagic();
+            this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
+            this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
+            this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
+            this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge)*1.3;
+        }
+    }
     public BuildSlot getLink(String s){
         for(BuildSlot bs : fullBuild){
             if(bs.getItem().getIdentifier().equals(s)){
