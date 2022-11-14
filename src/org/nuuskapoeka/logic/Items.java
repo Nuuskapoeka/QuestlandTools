@@ -34,7 +34,7 @@ public class Items {
     }
     public void UrlInfo(String url) throws IOException {
         HttpURLConnection urlConnection = (HttpURLConnection)new URL(url).openConnection();
-        for(int i=1;i<=8;i++){
+        for(int i=1;i<=25;i++){
             System.out.println(urlConnection.getHeaderFieldKey(i)+" = "+urlConnection.getHeaderField(i));
         }
     }
@@ -147,26 +147,6 @@ public class Items {
             }
         }catch (Exception e){
             e.printStackTrace();
-        }
-        Reader r = new Reader(new File(file));
-
-        for(String s : r.read()){
-            String[] parts = s.split(",");
-            //System.out.println(parts[1]);
-            Item i = new Item(parts[0].toUpperCase(),
-                    parts[1].toUpperCase(),
-                    null,
-                    parts[2].toUpperCase(),
-                    Integer.parseInt(parts[3]),
-                    Integer.parseInt(parts[4]),
-                    Integer.parseInt(parts[5]),
-                    Integer.parseInt(parts[6]),
-                    Integer.parseInt(parts[7]),
-                    null,
-                    null,
-                    null,
-                    null);
-            itemList.add(i);
         }
         for (Item i : weapons){
             //System.out.println(i);

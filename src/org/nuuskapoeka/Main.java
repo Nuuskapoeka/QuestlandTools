@@ -19,7 +19,7 @@ public class Main {
         Build b = new Build(new Items());
 
         Items i = new Items();
-        i.UrlInfo("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1493400110&single=true&output=csv");
+        //i.UrlInfo("https://storage.googleapis.com/ql-files-eu/330721.bin");
         
         MainUI ui = new MainUI(config);
         ui.startAnalyzer();
