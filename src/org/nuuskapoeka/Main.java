@@ -16,9 +16,11 @@ public class Main {
 
         Config config = new Config("config.txt");
 
-
         Build b = new Build(new Items());
 
+        Items i = new Items();
+        //i.UrlInfo("https://storage.googleapis.com/ql-files-eu/330721.bin");
+        
         MainUI ui = new MainUI(config);
         ui.startAnalyzer();
 

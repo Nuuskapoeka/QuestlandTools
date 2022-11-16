@@ -187,6 +187,13 @@ public class Item {
         return this.links;
     }
 
+    public String getTypeID() {
+        return typeID;
+    }
+
+    public void setTypeID(String typeID) {
+        this.typeID = typeID;
+    }
     public String toCSV(){
         return emblem + "," + name + "," + type + "," + slot + "," + potential + "," +
                 health + "," + attack + "," + defence + "," + magic + "," +

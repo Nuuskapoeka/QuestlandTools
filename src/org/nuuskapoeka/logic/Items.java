@@ -5,46 +5,105 @@ import org.nuuskapoeka.tools.Reader;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Scanner;
 
 public class Items {
 
+    private String itemSrc;
+    private String colItemSrc;
+    private String weaponSrc;
     private List<Item> itemList;
     private List<Item> weapons;
     private boolean isLoaded;
 
     public Items(){
+        itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1354238288&single=true&output=csv";
+        colItemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1120254239&single=true&output=csv";
+        weaponSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1278893465&single=true&output=csv";
+
         itemList = new ArrayList<>();
         weapons = new ArrayList<>();
         isLoaded = false;
     }
+    public void UrlInfo(String url) throws IOException {
+        HttpURLConnection urlConnection = (HttpURLConnection)new URL(url).openConnection();
+        for(int i=1;i<=25;i++){
+            System.out.println(urlConnection.getHeaderFieldKey(i)+" = "+urlConnection.getHeaderField(i));
+        }
+    }
     public void load(String file) throws FileNotFoundException {
-        Reader r = new Reader(new File(file));
+        int index = 0;
+        try{
+            URL url=new URL(itemSrc);
+            URL url2 = new URL(colItemSrc);
+            Scanner scanner = new Scanner(url.openStream());
+            Scanner scanner2 = new Scanner(url2.openStream());
+            while(scanner.hasNextLine()){
+                String[] parts = scanner.nextLine().split(",");
+                //System.out.println(parts[1]);
 
-        for(String s : r.read()){
-            String[] parts = s.split(",");
-            //System.out.println(parts[1]);
-
-            if(parts[2].equalsIgnoreCase("DEFENSE")){
-                parts[2] = "DEFENCE";
-                //System.out.println(parts[2]);
+                if(index==0){
+                    index++;
+                    continue;
+                }
+                if(parts[2].equalsIgnoreCase("DEFENSE")){
+                    parts[2] = "DEFENCE";
+                    //System.out.println(parts[2]);
+                }
+                Item i = new Item(parts[0].toUpperCase(),
+                        parts[1].toUpperCase(),
+                        parts[2].toUpperCase(),
+                        parts[3].toUpperCase(),
+                        Integer.parseInt(parts[4]),
+                        Integer.parseInt(parts[5]),
+                        Integer.parseInt(parts[6]),
+                        Integer.parseInt(parts[7]),
+                        Integer.parseInt(parts[8]),
+                        parts[9].toUpperCase(),
+                        parts[10].toUpperCase(),
+                        parts[11].toUpperCase(),
+                        parts[12]);
+                itemList.add(i);
+                index++;
             }
-            Item i = new Item(parts[0].toUpperCase(),
-                    parts[1].toUpperCase(),
-                    parts[2].toUpperCase(),
-                    parts[3].toUpperCase(),
-                    Integer.parseInt(parts[4]),
-                    Integer.parseInt(parts[5]),
-                    Integer.parseInt(parts[6]),
-                    Integer.parseInt(parts[7]),
-                    Integer.parseInt(parts[8]),
-                    parts[9].toUpperCase(),
-                    parts[10].toUpperCase(),
-                    parts[11].toUpperCase(),
-                    parts[12]);
-            itemList.add(i);
+            index = 0;
+            while(scanner2.hasNextLine()) {
+                String[] parts = scanner2.nextLine().split(",");
+                //System.out.println(parts[1]);
+
+                if (index == 0) {
+                    index++;
+                    continue;
+                }
+                if (parts[2].equalsIgnoreCase("DEFENSE")) {
+                    parts[2] = "DEFENCE";
+                    //System.out.println(parts[2]);
+                }
+                Item i = new Item(parts[0].toUpperCase(),
+                        parts[1].toUpperCase(),
+                        parts[2].toUpperCase(),
+                        parts[3].toUpperCase(),
+                        Integer.parseInt(parts[4]),
+                        Integer.parseInt(parts[5]),
+                        Integer.parseInt(parts[6]),
+                        Integer.parseInt(parts[7]),
+                        Integer.parseInt(parts[8]),
+                        parts[9].toUpperCase(),
+                        parts[10].toUpperCase(),
+                        parts[11].toUpperCase(),
+                        parts[12]);
+                itemList.add(i);
+                index++;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         loadWeapons("weaponData.csv");
         isLoaded = true;
@@ -54,25 +113,40 @@ public class Items {
 
     }
     public void loadWeapons(String file) throws FileNotFoundException {
-        Reader r = new Reader(new File(file));
+        int index = 0;
+        try{
+            URL url=new URL(weaponSrc);
+            Scanner scanner = new Scanner(url.openStream());
+            while(scanner.hasNextLine()){
+                String[] parts = scanner.nextLine().split(",");
+                //System.out.println(parts[1]);
 
-        for(String s : r.read()){
-            String[] parts = s.split(",");
-            //System.out.println(parts[1]);
-            Item i = new Item(parts[0].toUpperCase(),
-                    parts[1].toUpperCase(),
-                    null,
-                    parts[2].toUpperCase(),
-                    Integer.parseInt(parts[3]),
-                    Integer.parseInt(parts[4]),
-                    Integer.parseInt(parts[5]),
-                    Integer.parseInt(parts[6]),
-                    Integer.parseInt(parts[7]),
-                    null,
-                    null,
-                    null,
-                    null);
-            itemList.add(i);
+                if(index==0){
+                    index++;
+                    continue;
+                }
+                if(parts[2].equalsIgnoreCase("DEFENSE")){
+                    parts[2] = "DEFENCE";
+                    //System.out.println(parts[2]);
+                }
+                Item i = new Item(parts[0].toUpperCase(),
+                        parts[1].toUpperCase(),
+                        null,
+                        parts[2].toUpperCase(),
+                        Integer.parseInt(parts[3]),
+                        Integer.parseInt(parts[4]),
+                        Integer.parseInt(parts[5]),
+                        Integer.parseInt(parts[6]),
+                        Integer.parseInt(parts[7]),
+                        null,
+                        null,
+                        null,
+                        null);
+                itemList.add(i);
+                index++;
+            }
+        }catch (Exception e){
+            e.printStackTrace();
         }
         for (Item i : weapons){
             //System.out.println(i);
