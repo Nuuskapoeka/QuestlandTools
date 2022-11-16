@@ -3,6 +3,7 @@ package org.nuuskapoeka;
 import org.nuuskapoeka.domain.Config;
 import org.nuuskapoeka.logic.Build;
 import org.nuuskapoeka.logic.Copy;
+import org.nuuskapoeka.logic.GuildBossManager;
 import org.nuuskapoeka.logic.Items;
 import org.nuuskapoeka.ui.MainUI;
 
@@ -20,7 +21,8 @@ public class Main {
 
         Items i = new Items();
         //i.UrlInfo("https://storage.googleapis.com/ql-files-eu/330721.bin");
-        
+        GuildBossManager gbManager = new GuildBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1714212025&single=true&output=csv");
+        gbManager.load();
         MainUI ui = new MainUI(config);
         ui.startAnalyzer();
 
