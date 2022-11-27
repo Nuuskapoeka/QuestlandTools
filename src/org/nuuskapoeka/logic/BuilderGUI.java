@@ -4,6 +4,7 @@ import org.nuuskapoeka.domain.BuildSlot;
 import org.nuuskapoeka.domain.Item;
 import org.nuuskapoeka.tools.Writer;
 
+import javax.imageio.ImageIO;
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.swing.*;
 import java.awt.*;
@@ -11,9 +12,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,6 +28,7 @@ public class BuilderGUI extends JPanel{
 
     private static List<JComboBox> panels;
     private static List<JLabel> labels;
+    private static List<JLabel> images;
     private static List<JCheckBox> oneStats;
     private static Build currentlyLoaded;
 
@@ -321,6 +325,8 @@ public class BuilderGUI extends JPanel{
         panel.add(label);
         panel.add(list);
         panel.add(label2);
+        JLabel imageLabel = new JLabel();
+        panel.add(imageLabel);
         //oneStats.add(oneStat);
         if(!Arrays.asList(types).contains(type)){
             //panel.add(oneStat);
@@ -348,6 +354,13 @@ public class BuilderGUI extends JPanel{
         for(BuildSlot bs : build.getFullBuild()){
         	if(bs.getItem()!=null) {
                 labels.get(i).setText(bs.toString());
+                try{
+                    URL url = new URL(bs.getItem().getIconUrl());
+                    BufferedImage image = ImageIO.read(url);
+                    images.get(i).setIcon(new ImageIcon(image));
+                }catch (Exception e){
+                    System.out.println(bs.getItem().getIconUrl() + " image not found");
+                }
         	}
             //System.out.println(bs.toString());
             i++;
@@ -441,5 +454,9 @@ public class BuilderGUI extends JPanel{
         frame.setSize(300,500);
         //frame.setVisible(true);
     }
-
+    private JLabel displayImage(String link) throws IOException {
+        URL url = new URL(link);
+        BufferedImage image = ImageIO.read(url);
+        return new JLabel(new ImageIcon(image));
+    }
 }

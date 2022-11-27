@@ -221,7 +221,12 @@ public class Item {
                 links.get(0) + "," + links.get(1) + "," + links.get(2);
 
     }
-
+    public String getIconUrl(){
+        return iconUrl;
+    }
+    public String getFullUrl(){
+        return fullUrl;
+    }
     private int getHighestStat(){
         if(type.equalsIgnoreCase("health")){
             return this.health;
