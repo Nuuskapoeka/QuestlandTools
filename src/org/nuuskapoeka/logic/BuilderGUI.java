@@ -385,11 +385,12 @@ public class BuilderGUI extends JPanel{
         }
     }
     static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
-        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
-        Graphics2D graphics2D = resizedImage.createGraphics();
-        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
-        graphics2D.dispose();
-        return resizedImage;
+        Image tmp = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return dimg;
     }
     public static boolean isInUse(String s){
         for(JComboBox jcb : panels){
@@ -419,12 +420,37 @@ public class BuilderGUI extends JPanel{
         JPanel collectionTwo = new JPanel();
         GridLayout colTwoLayout = new GridLayout(4,3);
         mainGear.add(createSlot(build.getEquipped()[0]));
+        double imageScale = 2.5;
+        try{
+            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[0].getItem().getFullUrl()));
+            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getWidth()/imageScale), (int) (bi.getHeight()/imageScale)))));
+        }catch(Exception e){
+
+        }
         mainGear.add(createSlot(build.getEquipped()[4]));
         mainGear.add(createSlot(build.getEquipped()[1]));
+        try{
+            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[1].getItem().getFullUrl()));
+            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getWidth()/imageScale), (int) (bi.getHeight()/imageScale)))));
+        }catch(Exception e){
+
+        }
         mainGear.add(createSlot(build.getEquipped()[5]));
         mainGear.add(createSlot(build.getEquipped()[2]));
+        try{
+            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[2].getItem().getFullUrl()));
+            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getHeight()/imageScale), (int) (bi.getHeight()/imageScale)))));
+        }catch(Exception e){
+
+        }
         mainGear.add(createSlot(build.getEquipped()[6]));
         mainGear.add(createSlot(build.getEquipped()[3]));
+        try{
+            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[3].getItem().getFullUrl()));
+            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) Math.round(bi.getHeight()/imageScale), (int) (bi.getHeight()/imageScale)))));
+        }catch(Exception e){
+
+        }
 
         JPanel colOneHolder = new JPanel();
         BoxLayout colOneHolderLayout = new BoxLayout(colOneHolder,BoxLayout.Y_AXIS);
@@ -487,6 +513,7 @@ public class BuilderGUI extends JPanel{
         }
         slot.add(imagePanel);
         JLabel linksLabel = new JLabel(bs.activeLinksToStringStars());
+        linksLabel.setFont(new Font(linksLabel.getFont().getFontName(),linksLabel.getFont().getStyle(),20));
         linksLabel.setHorizontalTextPosition(JLabel.CENTER);
         linksLabel.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
         slot.add(linksLabel);
