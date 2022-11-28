@@ -37,6 +37,7 @@ public class BuilderGUI extends JPanel{
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.labels = new ArrayList<>();
         this.currentlyLoaded = new Build(itemList);
     }
@@ -44,6 +45,7 @@ public class BuilderGUI extends JPanel{
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.labels = new ArrayList<>();
         this.currentlyLoaded = new Build(itemList);
         this.buildPath = buildPath;
@@ -195,7 +197,7 @@ public class BuilderGUI extends JPanel{
         miscPanel.add(maxStatPanel);
 
         JButton button = new JButton("Check Links");
-
+        JButton visiualize = new JButton("Visualize");
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -235,11 +237,28 @@ public class BuilderGUI extends JPanel{
                 }
             }
         });
+        visiualize.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                checkLinks(currentlyLoaded);
+                try {
+                    createAndShowGearVisualizer(currentlyLoaded);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+            }
+        });
 
+        JPanel buttons = new JPanel();
+        BoxLayout buttonLayout = new BoxLayout(buttons,BoxLayout.X_AXIS);
+        buttons.setLayout(buttonLayout);
+        buttons.add(button);
+        buttons.add(visiualize);
+
+        panel.add(buttons);
         panel.add(equipped);
         panel.add(collections);
         panel.add(miscPanel);
-        panel.add(button);
 
         return panel;
     }
@@ -325,14 +344,12 @@ public class BuilderGUI extends JPanel{
         panel.add(label);
         panel.add(list);
         panel.add(label2);
-        JLabel imageLabel = new JLabel();
-        panel.add(imageLabel);
         //oneStats.add(oneStat);
         if(!Arrays.asList(types).contains(type)){
             //panel.add(oneStat);
         }
         label2.setSize(new Dimension(label2.getWidth(),label2.getHeight()*2));
-
+        //images.add(imageLabel);
         panels.add(list);
 
         return panel;
@@ -357,7 +374,8 @@ public class BuilderGUI extends JPanel{
                 try{
                     URL url = new URL(bs.getItem().getIconUrl());
                     BufferedImage image = ImageIO.read(url);
-                    images.get(i).setIcon(new ImageIcon(image));
+
+                    //images.get(i).setIcon(new ImageIcon(resizeImage(image,15,15)));
                 }catch (Exception e){
                     System.out.println(bs.getItem().getIconUrl() + " image not found");
                 }
@@ -366,6 +384,13 @@ public class BuilderGUI extends JPanel{
             i++;
         }
     }
+    static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        BufferedImage resizedImage = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_RGB);
+        Graphics2D graphics2D = resizedImage.createGraphics();
+        graphics2D.drawImage(originalImage, 0, 0, targetWidth, targetHeight, null);
+        graphics2D.dispose();
+        return resizedImage;
+    }
     public static boolean isInUse(String s){
         for(JComboBox jcb : panels){
             if(jcb.getSelectedItem().toString().equalsIgnoreCase(s)){
@@ -373,6 +398,101 @@ public class BuilderGUI extends JPanel{
             }
         }
         return false;
+    }
+    private static void createAndShowGearVisualizer(Build build) throws FileNotFoundException {
+        JFrame frame = new JFrame("Visualize");
+        GridLayout panelLayout = new GridLayout(1,3);
+        JPanel panel = new JPanel();
+        panel.setLayout(panelLayout);
+        GridLayout mainLayout = new GridLayout(4,2);
+        JPanel mainGearHolder = new JPanel();
+        BoxLayout holderLayout = new BoxLayout(mainGearHolder,BoxLayout.Y_AXIS);
+        mainGearHolder.setLayout(holderLayout);
+        JPanel mainGear = new JPanel();
+        mainGear.setLayout(mainLayout);
+        mainGearHolder.add(new JLabel("Equipped"));
+        mainGearHolder.add(mainGear);
+
+        JPanel collectionOne = new JPanel();
+        GridLayout colOneLayout = new GridLayout(4,3);
+
+        JPanel collectionTwo = new JPanel();
+        GridLayout colTwoLayout = new GridLayout(4,3);
+        mainGear.add(createSlot(build.getEquipped()[0]));
+        mainGear.add(createSlot(build.getEquipped()[4]));
+        mainGear.add(createSlot(build.getEquipped()[1]));
+        mainGear.add(createSlot(build.getEquipped()[5]));
+        mainGear.add(createSlot(build.getEquipped()[2]));
+        mainGear.add(createSlot(build.getEquipped()[6]));
+        mainGear.add(createSlot(build.getEquipped()[3]));
+
+        JPanel colOneHolder = new JPanel();
+        BoxLayout colOneHolderLayout = new BoxLayout(colOneHolder,BoxLayout.Y_AXIS);
+        colOneHolder.setLayout(colOneHolderLayout);
+        colOneHolder.add(new JLabel("Collection I"));
+        colOneHolder.add(collectionOne);
+        collectionOne.setLayout(colOneLayout);
+        collectionOne.add(createSlot(build.getHealthSlots()[0]));
+        collectionOne.add(createSlot(build.getMagicSlots()[0]));
+        collectionOne.add(createSlot(build.getHealthSlots()[1]));
+        collectionOne.add(createSlot(build.getMagicSlots()[1]));
+        collectionOne.add(new JPanel());
+        collectionOne.add(createSlot(build.getDefenceSlots()[0]));
+        collectionOne.add(createSlot(build.getAttackSlots()[0]));
+        collectionOne.add(new JPanel());
+        collectionOne.add(createSlot(build.getAttackSlots()[1]));
+        collectionOne.add(createSlot(build.getDefenceSlots()[1]));
+        collectionOne.add(createSlot(build.getHealthSlots()[2]));
+        collectionOne.add(createSlot(build.getMagicSlots()[2]));
+
+        JPanel colTwoHolder = new JPanel();
+        BoxLayout colTwoHolderLayout = new BoxLayout(colTwoHolder,BoxLayout.Y_AXIS);
+        colTwoHolder.setLayout(colTwoHolderLayout);
+        colTwoHolder.add(new JLabel("Collection II"));
+        colTwoHolder.add(collectionTwo);
+        collectionTwo.setLayout(colTwoLayout);
+        collectionTwo.add(createSlot(build.getAttackSlots()[2]));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[2]));
+        collectionTwo.add(createSlot(build.getAttackSlots()[3]));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[3]));
+        collectionTwo.add(new JPanel());
+        collectionTwo.add(createSlot(build.getMagicSlots()[3]));
+        collectionTwo.add(createSlot(build.getHealthSlots()[3]));
+        collectionTwo.add(new JPanel());
+        collectionTwo.add(createSlot(build.getHealthSlots()[4]));
+        collectionTwo.add(createSlot(build.getMagicSlots()[4]));
+        collectionTwo.add(createSlot(build.getAttackSlots()[4]));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[4]));
+
+        panel.add(mainGearHolder);
+        panel.add(colOneHolder);
+        panel.add(colTwoHolder);
+
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+    }
+
+    private static JPanel createSlot(BuildSlot bs){
+        JPanel slot = new JPanel();
+        BoxLayout layout = new BoxLayout(slot,BoxLayout.Y_AXIS);
+        slot.setLayout(layout);
+        JLabel imagePanel = new JLabel();
+        try{
+            URL url = new URL(bs.getItem().getIconUrl());
+            BufferedImage image = ImageIO.read(url);
+            imagePanel.setIcon(new ImageIcon(image));
+        }catch(Exception e){
+            System.out.println(bs.getItem().getName() + " image not found");
+        }
+        slot.add(imagePanel);
+        JLabel linksLabel = new JLabel(bs.activeLinksToStringStars());
+        linksLabel.setHorizontalTextPosition(JLabel.CENTER);
+        linksLabel.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
+        slot.add(linksLabel);
+
+        //slot.add(new JLabel(bs.getItem().getName()));
+        return slot;
     }
     private static void createAndShowItemSearchGUI() throws FileNotFoundException {
         JFrame frame = new JFrame("Item Search");

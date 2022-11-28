@@ -62,7 +62,7 @@ public class BuildSlot {
         }
         return links;
     }
-    private String activeLinksToStringStars(){
+    public String activeLinksToStringStars(){
         String links = "[";
         for (String s : activeLinks){
             links+=" * ";
