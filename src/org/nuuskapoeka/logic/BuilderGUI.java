@@ -17,9 +17,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BuilderGUI extends JPanel{
 
@@ -285,10 +285,22 @@ public class BuilderGUI extends JPanel{
 
         String[] types = {"health", "attack", "defence", "magic"};
         List<String> list = Arrays.asList(types);
+        Collections.sort(itemList.getItemList(),new Comparator<Item>() {
+            @Override
+            public int compare(Item i1, Item i2) {
+                return i1.getPotential()-i2.getPotential();
+            }
+        });
 
+        List<String> items2 = itemList.getItemList().stream()
+                //.filter(item -> item.getSlot().equalsIgnoreCase(type))
+                //.filter(item -> item.getType().equalsIgnoreCase(type))
+                .map(i -> i.getName())
+                .collect(Collectors.toList());
         //System.out.println(type);
         ArrayList<String> filtered = new ArrayList<>();
-        for(String s : items){
+
+        for(String s : items2){
             //System.out.println(itemList.getItem(s).getSlot());
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
                 //System.out.println(itemList.getItem(s).getSlot());
@@ -402,8 +414,8 @@ public class BuilderGUI extends JPanel{
     }
     private static void createAndShowGearVisualizer(Build build) throws FileNotFoundException {
         JFrame frame = new JFrame("Visualize");
-        GridLayout panelLayout = new GridLayout(1,3);
         JPanel panel = new JPanel();
+        BoxLayout panelLayout = new BoxLayout(panel,BoxLayout.Y_AXIS);
         panel.setLayout(panelLayout);
         GridLayout mainLayout = new GridLayout(4,2);
         JPanel mainGearHolder = new JPanel();
@@ -411,7 +423,6 @@ public class BuilderGUI extends JPanel{
         mainGearHolder.setLayout(holderLayout);
         JPanel mainGear = new JPanel();
         mainGear.setLayout(mainLayout);
-        mainGearHolder.add(new JLabel("Equipped"));
         mainGearHolder.add(mainGear);
 
         JPanel collectionOne = new JPanel();
@@ -419,106 +430,117 @@ public class BuilderGUI extends JPanel{
 
         JPanel collectionTwo = new JPanel();
         GridLayout colTwoLayout = new GridLayout(4,3);
-        mainGear.add(createSlot(build.getEquipped()[0]));
-        double imageScale = 2.5;
-        try{
-            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[0].getItem().getFullUrl()));
-            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getWidth()/imageScale), (int) (bi.getHeight()/imageScale)))));
-        }catch(Exception e){
 
-        }
-        mainGear.add(createSlot(build.getEquipped()[4]));
-        mainGear.add(createSlot(build.getEquipped()[1]));
-        try{
-            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[1].getItem().getFullUrl()));
-            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getWidth()/imageScale), (int) (bi.getHeight()/imageScale)))));
-        }catch(Exception e){
-
-        }
-        mainGear.add(createSlot(build.getEquipped()[5]));
-        mainGear.add(createSlot(build.getEquipped()[2]));
-        try{
-            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[2].getItem().getFullUrl()));
-            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) (bi.getHeight()/imageScale), (int) (bi.getHeight()/imageScale)))));
-        }catch(Exception e){
-
-        }
-        mainGear.add(createSlot(build.getEquipped()[6]));
-        mainGear.add(createSlot(build.getEquipped()[3]));
-        try{
-            BufferedImage bi = ImageIO.read(new URL(build.getEquipped()[3].getItem().getFullUrl()));
-            mainGear.add(new JLabel(new ImageIcon(resizeImage(bi, (int) Math.round(bi.getHeight()/imageScale), (int) (bi.getHeight()/imageScale)))));
-        }catch(Exception e){
-
-        }
+        mainGear.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Equipped"));
+        mainGear.add(createSlot(build.getEquipped()[0],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[4],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[1],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[5],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[2],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[6],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[3],"icon"));
 
         JPanel colOneHolder = new JPanel();
         BoxLayout colOneHolderLayout = new BoxLayout(colOneHolder,BoxLayout.Y_AXIS);
         colOneHolder.setLayout(colOneHolderLayout);
-        colOneHolder.add(new JLabel("Collection I"));
         colOneHolder.add(collectionOne);
         collectionOne.setLayout(colOneLayout);
-        collectionOne.add(createSlot(build.getHealthSlots()[0]));
-        collectionOne.add(createSlot(build.getMagicSlots()[0]));
-        collectionOne.add(createSlot(build.getHealthSlots()[1]));
-        collectionOne.add(createSlot(build.getMagicSlots()[1]));
+        collectionOne.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Collection I"));
+        collectionOne.add(createSlot(build.getHealthSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getHealthSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[1],"icon"));
         collectionOne.add(new JPanel());
-        collectionOne.add(createSlot(build.getDefenceSlots()[0]));
-        collectionOne.add(createSlot(build.getAttackSlots()[0]));
+        collectionOne.add(createSlot(build.getDefenceSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getAttackSlots()[0],"icon"));
         collectionOne.add(new JPanel());
-        collectionOne.add(createSlot(build.getAttackSlots()[1]));
-        collectionOne.add(createSlot(build.getDefenceSlots()[1]));
-        collectionOne.add(createSlot(build.getHealthSlots()[2]));
-        collectionOne.add(createSlot(build.getMagicSlots()[2]));
+        collectionOne.add(createSlot(build.getAttackSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getDefenceSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getHealthSlots()[2],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[2],"icon"));
 
         JPanel colTwoHolder = new JPanel();
         BoxLayout colTwoHolderLayout = new BoxLayout(colTwoHolder,BoxLayout.Y_AXIS);
         colTwoHolder.setLayout(colTwoHolderLayout);
-        colTwoHolder.add(new JLabel("Collection II"));
         colTwoHolder.add(collectionTwo);
         collectionTwo.setLayout(colTwoLayout);
-        collectionTwo.add(createSlot(build.getAttackSlots()[2]));
-        collectionTwo.add(createSlot(build.getDefenceSlots()[2]));
-        collectionTwo.add(createSlot(build.getAttackSlots()[3]));
-        collectionTwo.add(createSlot(build.getDefenceSlots()[3]));
+        collectionTwo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Collection II"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[2],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[2],"icon"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[3],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[3],"icon"));
         collectionTwo.add(new JPanel());
-        collectionTwo.add(createSlot(build.getMagicSlots()[3]));
-        collectionTwo.add(createSlot(build.getHealthSlots()[3]));
+        collectionTwo.add(createSlot(build.getMagicSlots()[3],"icon"));
+        collectionTwo.add(createSlot(build.getHealthSlots()[3],"icon"));
         collectionTwo.add(new JPanel());
-        collectionTwo.add(createSlot(build.getHealthSlots()[4]));
-        collectionTwo.add(createSlot(build.getMagicSlots()[4]));
-        collectionTwo.add(createSlot(build.getAttackSlots()[4]));
-        collectionTwo.add(createSlot(build.getDefenceSlots()[4]));
+        collectionTwo.add(createSlot(build.getHealthSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getMagicSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[4],"icon"));
 
-        panel.add(mainGearHolder);
-        panel.add(colOneHolder);
-        panel.add(colTwoHolder);
+        JPanel fullPanel = new JPanel();
+
+        fullPanel.add(mainGearHolder);
+        fullPanel.add(colOneHolder);
+        fullPanel.add(colTwoHolder);
+
+        JButton fullBtn = new JButton("Full Build");
+        JButton mainBtn = new JButton("Visual");
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel,BoxLayout.X_AXIS));
+        buttonsPanel.add(fullBtn);
+        fullBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.remove(1);
+                panel.add(fullPanel);
+                panel.revalidate();
+                panel.repaint();
+            }
+        });
+        mainBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.revalidate();
+                panel.repaint();
+            }
+        });
+        buttonsPanel.add(mainBtn);
+
+        //panel.add(buttonsPanel);
+        panel.add(fullPanel);
 
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
     }
 
-    private static JPanel createSlot(BuildSlot bs){
+    private static JPanel createSlot(BuildSlot bs, String urlType){
         JPanel slot = new JPanel();
         BoxLayout layout = new BoxLayout(slot,BoxLayout.Y_AXIS);
         slot.setLayout(layout);
         JLabel imagePanel = new JLabel();
         try{
-            URL url = new URL(bs.getItem().getIconUrl());
+            URL url;
+            if(urlType.equalsIgnoreCase("icon")){
+                url = new URL(bs.getItem().getIconUrl());
+            }else{
+                url = new URL(bs.getItem().getFullUrl());
+            }
             BufferedImage image = ImageIO.read(url);
             imagePanel.setIcon(new ImageIcon(image));
         }catch(Exception e){
             System.out.println(bs.getItem().getName() + " image not found");
         }
         slot.add(imagePanel);
-        JLabel linksLabel = new JLabel(bs.activeLinksToStringStars());
-        linksLabel.setFont(new Font(linksLabel.getFont().getFontName(),linksLabel.getFont().getStyle(),20));
-        linksLabel.setHorizontalTextPosition(JLabel.CENTER);
+        JLabel linksLabel = new JLabel("    "+bs.activeLinksToStringStars());
+        linksLabel.setSize(imagePanel.getWidth(), linksLabel.getHeight());
+        linksLabel.setBorder(BorderFactory.createLineBorder(Color.black));
+        linksLabel.setFont(new Font(linksLabel.getFont().getFontName(),linksLabel.getFont().getStyle(),15));
         linksLabel.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
         slot.add(linksLabel);
-
-        //slot.add(new JLabel(bs.getItem().getName()));
+        linksLabel.setSize(slot.getWidth(), linksLabel.getHeight());
         return slot;
     }
     private static void createAndShowItemSearchGUI() throws FileNotFoundException {
