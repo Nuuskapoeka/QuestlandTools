@@ -596,13 +596,10 @@ public class BuilderGUI extends JPanel{
             System.out.println(bs.getItem().getName() + " image not found");
         }
         slot.add(imagePanel);
-        JLabel linksLabel = new JLabel("    "+bs.activeLinksToStringStars());
-        linksLabel.setSize(imagePanel.getWidth(), linksLabel.getHeight());
-        linksLabel.setBorder(BorderFactory.createLineBorder(Color.black));
-        linksLabel.setFont(new Font(linksLabel.getFont().getFontName(),linksLabel.getFont().getStyle(),15));
-        linksLabel.setBorder(BorderFactory.createEmptyBorder(1,1,1,1));
-        slot.add(linksLabel);
-        linksLabel.setSize(slot.getWidth(), linksLabel.getHeight());
+        imagePanel.setText(bs.activeLinksToStringStars());
+        imagePanel.setHorizontalTextPosition(JLabel.CENTER);
+        imagePanel.setVerticalTextPosition(JLabel.BOTTOM);
+        imagePanel.setFont(new Font(imagePanel.getFont().getFontName(),imagePanel.getFont().getStyle(),15));
         return slot;
     }
     private static JPanel createAndShowItemSearchGUI() throws FileNotFoundException {
