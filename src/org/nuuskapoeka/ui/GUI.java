@@ -31,26 +31,42 @@ public class GUI {
 
     private static Config config;
 
+    private static BuilderGUI builderGui;
+
     public GUI(Guild guild, List<String> items, Items itemList, Config c){
         this.guild = guild;
         this.items = items;
         this.itemList = itemList;
         this.config = c;
     }
-    public static void createAndShowGUI() {
+    public static void createAndShowGUI() throws FileNotFoundException {
         //Create and set up the window.
+
+        JMenuBar navBar = new JMenuBar();
+        JMenu nav = new JMenu("Builder");
+        navBar.add(nav);
+        JMenuItem itemOne = new JMenuItem("Builder");
+        JMenuItem itemTwo = new JMenuItem("Visualize");
+        JMenuItem itemThree = new JMenuItem("CheckLinks");
+        //itemOne.getAccessibleContext().setAccessibleDescription("Builder");
+        nav.add(itemOne);
+        nav.add(itemTwo);
+        nav.add(itemThree);
+
 
         BuilderGUI builder = new BuilderGUI(items,itemList,buildPath);
 
-        JFrame frame = new JFrame("Build Planner");
+        JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         List<JPanel> list = new ArrayList<>();
+        frame.setJMenuBar(navBar);
         list.add(builder.createMainPanel());
         list.add(graphPanel());
 
         //Display the window.
-        frame.add(graphPanel());
+        frame.add(startBuilder());
+        frame.setJMenuBar(navBar);
         //frame.add(new BarChart(convertList(guild.getGuildScores()),guild));
         frame.pack();
         frame.setSize(1200,800);
@@ -58,12 +74,27 @@ public class GUI {
 
         //addFileInterface();
     }
+    public static JPanel startBuilder() throws FileNotFoundException {
+        Scanner r = new Scanner(System.in);
+        //System.out.println("Item file location:");
+        String s = config.getBuilderSource();
+        //System.out.println("Build file location:");
+        String b = config.getBuildSource();
+        itemList.load(s);
+        builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
+        //this.itemList.clearEmpty();
+        builderGui.startGUI();
+        //gui.createAndShowGUI();
+        builderGui.loadBuildIn(itemList.loadBuild(b).getFullBuild());
+
+        return builderGui.createMainPanel();
+    }
+
     private static JPanel graphPanel(){
         JPanel panel = new JPanel();
         GraphPanel graphPanel = new GraphPanel(new ArrayList<>(),guild, new JComboBox(filterType().toArray()));
 
-        //graphPanel.setComparison(guild.getHero("Nuuska").getHeroPowerHistoryAsList());
-
+        //graphPanel.setComparison(guild.getHero("Nuuska").getHeroPowerHistoryAsList())
         //graphPanel.revalidate();
         //graphPanel.repaint();
 
@@ -173,7 +204,11 @@ public class GUI {
         returnButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createAndShowGUI();
+                try {
+                    createAndShowGUI();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -276,7 +311,11 @@ public class GUI {
         trackerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                createAndShowGUI();
+                try {
+                    createAndShowGUI();
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
