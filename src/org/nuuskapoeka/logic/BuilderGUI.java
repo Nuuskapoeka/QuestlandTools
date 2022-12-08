@@ -58,7 +58,7 @@ public class BuilderGUI extends JPanel{
     public static void createAndShowGUI() {
         //Create and set up the window.
 
-        JFrame frame = new JFrame("Build Planner Â©Nuuskapoeka#9061");
+        JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061, Graphics ©Gamesture sp. z o.o.");
         frame.add(createMainPanel());
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JMenuBar navBar = new JMenuBar();
