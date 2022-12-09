@@ -23,6 +23,8 @@ public class Item {
     private List<String> links;
     private String typeID;
 
+    private String iconUrl;
+    private String fullUrl;
     public Item(String emblem,
                 String name,
                 String type,
@@ -54,6 +56,25 @@ public class Item {
             this.links.add(null);
         }
         this.typeID = typeID;
+    }
+    public Item(String emblem,
+                String name,
+                String type,
+                String slot,
+                int potential,
+                int health,
+                int attack,
+                int defence,
+                int magic,
+                String link1,
+                String link2,
+                String link3,
+                String typeID,
+                String iconUrl,
+                String fullUrl) {
+        this(emblem, name, type, slot, potential, health, attack, defence, magic, link1, link2, link3, typeID);
+        this.iconUrl = iconUrl;
+        this.fullUrl = fullUrl;
     }
 
     public int getStats(){
@@ -200,7 +221,12 @@ public class Item {
                 links.get(0) + "," + links.get(1) + "," + links.get(2);
 
     }
-
+    public String getIconUrl(){
+        return iconUrl;
+    }
+    public String getFullUrl(){
+        return fullUrl;
+    }
     private int getHighestStat(){
         if(type.equalsIgnoreCase("health")){
             return this.health;

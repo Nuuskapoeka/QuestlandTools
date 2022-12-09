@@ -75,6 +75,7 @@ public class MainUI {
                 }
             }else if(command.equals("builder")){
                 if(config.isBuilderStatus()){
+                    //startBuilder();
                     startBuilder();
                 }
             }else if(command.equals("tracker")){

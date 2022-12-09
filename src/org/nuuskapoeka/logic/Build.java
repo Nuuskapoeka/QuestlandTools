@@ -340,6 +340,14 @@ public class Build {
     }
 
     public BuildSlot[] getEquipped() {
+        int i = 0;
+        for(BuildSlot bs : fullBuild){
+            if(i>=7){
+                break;
+            }
+            equipped[i] = bs;
+            i++;
+        }
         return equipped;
     }
 
@@ -348,6 +356,20 @@ public class Build {
     }
 
     public BuildSlot[] getHealthSlots() {
+        int i = 7;
+        int slotI = 0;
+        for(BuildSlot bs : fullBuild){
+            if(i>=13){
+                break;
+            }else if(i<7){
+                continue;
+            }else if(slotI==5){
+                break;
+            }
+            healthSlots[slotI] = fullBuild.get(i);
+            slotI ++;
+            i++;
+        }
         return healthSlots;
     }
 
@@ -356,6 +378,20 @@ public class Build {
     }
 
     public BuildSlot[] getAttackSlots() {
+        int i = 12;
+        int slotI = 0;
+        for(BuildSlot bs : fullBuild){
+            if(i>=18){
+                break;
+            }else if(i<12){
+                continue;
+            }else if(slotI==5){
+                break;
+            }
+            attackSlots[slotI] = fullBuild.get(i);
+            slotI++;
+            i++;
+        }
         return attackSlots;
     }
 
@@ -364,6 +400,20 @@ public class Build {
     }
 
     public BuildSlot[] getDefenceSlots() {
+        int i = 17;
+        int slotI = 0;
+        for(BuildSlot bs : fullBuild){
+            if(i>=23){
+                break;
+            }else if(i<17){
+                continue;
+            }else if(slotI==5){
+                break;
+            }
+            defenceSlots[slotI] = fullBuild.get(i);
+            slotI++;
+            i++;
+        }
         return defenceSlots;
     }
 
@@ -372,6 +422,20 @@ public class Build {
     }
 
     public BuildSlot[] getMagicSlots() {
+        int i = 22;
+        int slotI = 0;
+        for(BuildSlot bs : fullBuild){
+            if(i>=28){
+                break;
+            }else if(i<22){
+                continue;
+            }else if(slotI==5){
+                break;
+            }
+            magicSlots[slotI] = fullBuild.get(i);
+            slotI++;
+            i++;
+        }
         return magicSlots;
     }
 

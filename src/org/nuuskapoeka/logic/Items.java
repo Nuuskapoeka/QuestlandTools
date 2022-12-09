@@ -24,7 +24,7 @@ public class Items {
     private boolean isLoaded;
 
     public Items(){
-        itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1354238288&single=true&output=csv";
+        itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=599842681&single=true&output=csv";
         colItemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1120254239&single=true&output=csv";
         weaponSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1278893465&single=true&output=csv";
 
@@ -57,19 +57,7 @@ public class Items {
                     parts[2] = "DEFENCE";
                     //System.out.println(parts[2]);
                 }
-                Item i = new Item(parts[0].toUpperCase(),
-                        parts[1].toUpperCase(),
-                        parts[2].toUpperCase(),
-                        parts[3].toUpperCase(),
-                        Integer.parseInt(parts[4]),
-                        Integer.parseInt(parts[5]),
-                        Integer.parseInt(parts[6]),
-                        Integer.parseInt(parts[7]),
-                        Integer.parseInt(parts[8]),
-                        parts[9].toUpperCase(),
-                        parts[10].toUpperCase(),
-                        parts[11].toUpperCase(),
-                        parts[12]);
+                Item i = InitItem(parts);
                 itemList.add(i);
                 index++;
             }
@@ -86,19 +74,7 @@ public class Items {
                     parts[2] = "DEFENCE";
                     //System.out.println(parts[2]);
                 }
-                Item i = new Item(parts[0].toUpperCase(),
-                        parts[1].toUpperCase(),
-                        parts[2].toUpperCase(),
-                        parts[3].toUpperCase(),
-                        Integer.parseInt(parts[4]),
-                        Integer.parseInt(parts[5]),
-                        Integer.parseInt(parts[6]),
-                        Integer.parseInt(parts[7]),
-                        Integer.parseInt(parts[8]),
-                        parts[9].toUpperCase(),
-                        parts[10].toUpperCase(),
-                        parts[11].toUpperCase(),
-                        parts[12]);
+                Item i = InitItem(parts);
                 itemList.add(i);
                 index++;
             }
@@ -111,6 +87,39 @@ public class Items {
             //System.out.println(i);
         }
 
+    }
+    public Item InitItem(String[] parts){
+        if(parts.length==15){
+            return new Item(parts[0].toUpperCase(),
+                    parts[1].toUpperCase(),
+                    parts[2].toUpperCase(),
+                    parts[3].toUpperCase(),
+                    Integer.parseInt(parts[4]),
+                    Integer.parseInt(parts[5]),
+                    Integer.parseInt(parts[6]),
+                    Integer.parseInt(parts[7]),
+                    Integer.parseInt(parts[8]),
+                    parts[9].toUpperCase(),
+                    parts[10].toUpperCase(),
+                    parts[11].toUpperCase(),
+                    parts[12],
+                    "https://storage.googleapis.com/ql-files-eu/"+parts[13]+".bin",
+                    "https://storage.googleapis.com/ql-files-eu/"+parts[14]+".bin");
+        }else{
+            return new Item(parts[0].toUpperCase(),
+                    parts[1].toUpperCase(),
+                    parts[2].toUpperCase(),
+                    parts[3].toUpperCase(),
+                    Integer.parseInt(parts[4]),
+                    Integer.parseInt(parts[5]),
+                    Integer.parseInt(parts[6]),
+                    Integer.parseInt(parts[7]),
+                    Integer.parseInt(parts[8]),
+                    parts[9].toUpperCase(),
+                    parts[10].toUpperCase(),
+                    parts[11].toUpperCase(),
+                    parts[12]);
+        }
     }
     public void loadWeapons(String file) throws FileNotFoundException {
         int index = 0;

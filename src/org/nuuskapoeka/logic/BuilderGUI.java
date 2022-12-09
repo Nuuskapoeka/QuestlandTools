@@ -4,6 +4,7 @@ import org.nuuskapoeka.domain.BuildSlot;
 import org.nuuskapoeka.domain.Item;
 import org.nuuskapoeka.tools.Writer;
 
+import javax.imageio.ImageIO;
 import javax.print.attribute.HashPrintJobAttributeSet;
 import javax.swing.*;
 import java.awt.*;
@@ -11,12 +12,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
+import java.net.URL;
+import java.util.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class BuilderGUI extends JPanel{
 
@@ -25,14 +28,20 @@ public class BuilderGUI extends JPanel{
 
     private static List<JComboBox> panels;
     private static List<JLabel> labels;
+    private static List<JLabel> images;
     private static List<JCheckBox> oneStats;
     private static Build currentlyLoaded;
+
+    //global gui variables
+    private static JPanel navPanel;
+    private static JPanel panel;
 
     private static String buildPath;
     public BuilderGUI(List<String> items, Items itemList){
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.labels = new ArrayList<>();
         this.currentlyLoaded = new Build(itemList);
     }
@@ -40,26 +49,70 @@ public class BuilderGUI extends JPanel{
         this.items = items;
         this.itemList = itemList;
         this.panels = new ArrayList<>();
+        this.images = new ArrayList<>();
         this.labels = new ArrayList<>();
         this.currentlyLoaded = new Build(itemList);
         this.buildPath = buildPath;
     }
 
-    private static void createAndShowGUI() {
+    public static void createAndShowGUI() {
         //Create and set up the window.
 
-        JFrame frame = new JFrame("Build Planner Â©Nuuskapoeka#9061");
+        JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061, Graphics ©Gamesture sp. z o.o.");
+        frame.add(createMainPanel());
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        JMenuBar navBar = new JMenuBar();
+        JMenu nav = new JMenu("Builder");
+        navBar.add(nav);
+        JMenuItem itemOne = new JMenuItem("Builder");
+        itemOne.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(0);
+                navPanel.add(panel);
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
+        JMenuItem itemTwo = new JMenuItem("Visualize");
+        itemTwo.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(0);
+                try {
+                    navPanel.add(createAndShowGearVisualizer(currentlyLoaded));
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
+        JMenuItem itemThree = new JMenuItem("CheckLinks");
+        //itemOne.getAccessibleContext().setAccessibleDescription("Builder");
+        nav.add(itemOne);
+        nav.add(itemTwo);
+        //nav.add(itemThree);
 
         //Display the window.
-        frame.add(createMainPanel());
+        frame.setJMenuBar(navBar);
         frame.pack();
         frame.setSize(1200,800);
         frame.setVisible(true);
     }
 
     public static JPanel createMainPanel(){
-        JPanel panel = new JPanel();
+
+        panel = new JPanel();
+
+        navPanel = new JPanel();
+        BoxLayout navLayout = new BoxLayout(navPanel,BoxLayout.Y_AXIS);
+
+        JPanel navButtonPanel = new JPanel();
+        BoxLayout navButtonLayout = new BoxLayout(navButtonPanel,BoxLayout.X_AXIS);
+
+        //navPanel.add(navButtonPanel);
+        navPanel.add(panel);
 
         JLabel health = new JLabel();
         JLabel attack = new JLabel();
@@ -123,7 +176,7 @@ public class BuilderGUI extends JPanel{
         maxStatPanel.add(maxTotal);
 
         JPanel orbPanel = new JPanel();
-        GridLayout orbLayout = new GridLayout(8,1);
+        GridLayout orbLayout = new GridLayout(4,2);
         JPanel orbEnhPanel = new JPanel();
         orbEnhPanel.setLayout(orbLayout);
         JTextField orbBaseField = new JTextField("2000");
@@ -131,7 +184,7 @@ public class BuilderGUI extends JPanel{
         JTextField orbEnhField = new JTextField("8");
         JTextField guildBonus = new JTextField("1.15");
 
-        orbEnhPanel.add(new JLabel("Orb Base Power:"));
+        orbEnhPanel.add(new JLabel("Orb Base Pow:"));
         orbEnhPanel.add(orbBaseField);
         orbEnhPanel.add(new JLabel("Orb Potential:"));
         orbEnhPanel.add(orbPotField);
@@ -182,7 +235,7 @@ public class BuilderGUI extends JPanel{
         magicPanel.add(createPanel("magic"));
 
         JPanel weaponsPanel = new JPanel();
-        GridLayout weaponLayout = new GridLayout(2,1);
+        BoxLayout weaponLayout = new BoxLayout(weaponsPanel,BoxLayout.Y_AXIS);
         weaponsPanel.setLayout(weaponLayout);
         weaponsPanel.add(createPanel("main hand"));
         weaponsPanel.add(createPanel("off hand"));
@@ -190,9 +243,8 @@ public class BuilderGUI extends JPanel{
         miscPanel.add(weaponsPanel);
         miscPanel.add(maxStatPanel);
 
-        JButton button = new JButton("Check Links");
-
-        button.addActionListener(new ActionListener() {
+        JButton checkLinksButton = new JButton("Check Links");
+        checkLinksButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
 
@@ -230,14 +282,40 @@ public class BuilderGUI extends JPanel{
                     fileNotFoundException.printStackTrace();
                 }
             }
+        });        JButton builderButton = new JButton("Builder");
+        builderButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(1);
+                navPanel.add(panel);
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
         });
+        JButton visualizerButton = new JButton("Visualize");
+        visualizerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(1);
+                try {
+                    navPanel.add(createAndShowGearVisualizer(currentlyLoaded));
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
+                }
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
+        navButtonPanel.add(checkLinksButton);
+        //navButtonPanel.add(builderButton);
+        //navButtonPanel.add(visualizerButton);
 
+        panel.add(checkLinksButton);
         panel.add(equipped);
         panel.add(collections);
         panel.add(miscPanel);
-        panel.add(button);
 
-        return panel;
+        return navPanel;
     }
 
     public static void saveBuild(List<String> build) throws IOException {
@@ -262,10 +340,22 @@ public class BuilderGUI extends JPanel{
 
         String[] types = {"health", "attack", "defence", "magic"};
         List<String> list = Arrays.asList(types);
+        Collections.sort(itemList.getItemList(),new Comparator<Item>() {
+            @Override
+            public int compare(Item i1, Item i2) {
+                return i1.getPotential()-i2.getPotential();
+            }
+        });
 
+        List<String> items2 = itemList.getItemList().stream()
+                //.filter(item -> item.getSlot().equalsIgnoreCase(type))
+                //.filter(item -> item.getType().equalsIgnoreCase(type))
+                .map(i -> i.getName())
+                .collect(Collectors.toList());
         //System.out.println(type);
         ArrayList<String> filtered = new ArrayList<>();
-        for(String s : items){
+
+        for(String s : items2){
             //System.out.println(itemList.getItem(s).getSlot());
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
                 //System.out.println(itemList.getItem(s).getSlot());
@@ -326,7 +416,7 @@ public class BuilderGUI extends JPanel{
             //panel.add(oneStat);
         }
         label2.setSize(new Dimension(label2.getWidth(),label2.getHeight()*2));
-
+        //images.add(imageLabel);
         panels.add(list);
 
         return panel;
@@ -340,6 +430,9 @@ public class BuilderGUI extends JPanel{
                 //System.out.println(fullBuild.get(i).toString());
         	}
             i++;
+            if(i>=29){
+                return;
+            }
         }
         currentlyLoaded.setFullBuild(fullBuild);
     }
@@ -348,10 +441,25 @@ public class BuilderGUI extends JPanel{
         for(BuildSlot bs : build.getFullBuild()){
         	if(bs.getItem()!=null) {
                 labels.get(i).setText(bs.toString());
+                try{
+                    URL url = new URL(bs.getItem().getIconUrl());
+                    BufferedImage image = ImageIO.read(url);
+
+                    //images.get(i).setIcon(new ImageIcon(resizeImage(image,15,15)));
+                }catch (Exception e){
+                }
         	}
             //System.out.println(bs.toString());
             i++;
         }
+    }
+    static BufferedImage resizeImage(BufferedImage originalImage, int targetWidth, int targetHeight) throws IOException {
+        Image tmp = originalImage.getScaledInstance(targetWidth, targetHeight, Image.SCALE_SMOOTH);
+        BufferedImage dimg = new BufferedImage(targetWidth, targetHeight, BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = dimg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+        return dimg;
     }
     public static boolean isInUse(String s){
         for(JComboBox jcb : panels){
@@ -361,7 +469,140 @@ public class BuilderGUI extends JPanel{
         }
         return false;
     }
-    private static void createAndShowItemSearchGUI() throws FileNotFoundException {
+    private static JPanel createAndShowGearVisualizer(Build build) throws FileNotFoundException {
+        JFrame frame = new JFrame("Visualize");
+        JPanel panel = new JPanel();
+        BoxLayout panelLayout = new BoxLayout(panel,BoxLayout.Y_AXIS);
+        panel.setLayout(panelLayout);
+        GridLayout mainLayout = new GridLayout(4,2);
+        JPanel mainGearHolder = new JPanel();
+        BoxLayout holderLayout = new BoxLayout(mainGearHolder,BoxLayout.Y_AXIS);
+        mainGearHolder.setLayout(holderLayout);
+        JPanel mainGear = new JPanel();
+        mainGear.setLayout(mainLayout);
+        mainGearHolder.add(mainGear);
+
+        JPanel collectionOne = new JPanel();
+        GridLayout colOneLayout = new GridLayout(4,3);
+
+        JPanel collectionTwo = new JPanel();
+        GridLayout colTwoLayout = new GridLayout(4,3);
+
+        mainGear.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Equipped"));
+        mainGear.add(createSlot(build.getEquipped()[0],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[4],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[1],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[5],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[2],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[6],"icon"));
+        mainGear.add(createSlot(build.getEquipped()[3],"icon"));
+
+        JPanel colOneHolder = new JPanel();
+        BoxLayout colOneHolderLayout = new BoxLayout(colOneHolder,BoxLayout.Y_AXIS);
+        colOneHolder.setLayout(colOneHolderLayout);
+        colOneHolder.add(collectionOne);
+        collectionOne.setLayout(colOneLayout);
+        collectionOne.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Collection I"));
+        collectionOne.add(createSlot(build.getHealthSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getHealthSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[1],"icon"));
+        collectionOne.add(new JPanel());
+        collectionOne.add(createSlot(build.getDefenceSlots()[0],"icon"));
+        collectionOne.add(createSlot(build.getAttackSlots()[0],"icon"));
+        collectionOne.add(new JPanel());
+        collectionOne.add(createSlot(build.getAttackSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getDefenceSlots()[1],"icon"));
+        collectionOne.add(createSlot(build.getHealthSlots()[2],"icon"));
+        collectionOne.add(createSlot(build.getMagicSlots()[2],"icon"));
+
+        JPanel colTwoHolder = new JPanel();
+        BoxLayout colTwoHolderLayout = new BoxLayout(colTwoHolder,BoxLayout.Y_AXIS);
+        colTwoHolder.setLayout(colTwoHolderLayout);
+        colTwoHolder.add(collectionTwo);
+        collectionTwo.setLayout(colTwoLayout);
+        collectionTwo.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Collection II"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[2],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[2],"icon"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[3],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[3],"icon"));
+        collectionTwo.add(new JPanel());
+        collectionTwo.add(createSlot(build.getMagicSlots()[3],"icon"));
+        collectionTwo.add(createSlot(build.getHealthSlots()[3],"icon"));
+        collectionTwo.add(new JPanel());
+        collectionTwo.add(createSlot(build.getHealthSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getMagicSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getAttackSlots()[4],"icon"));
+        collectionTwo.add(createSlot(build.getDefenceSlots()[4],"icon"));
+
+        JPanel fullPanel = new JPanel();
+
+        fullPanel.add(mainGearHolder);
+        fullPanel.add(colOneHolder);
+        fullPanel.add(colTwoHolder);
+
+        JButton fullBtn = new JButton("Full Build");
+        JButton mainBtn = new JButton("Visual");
+
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new BoxLayout(buttonsPanel,BoxLayout.X_AXIS));
+        buttonsPanel.add(fullBtn);
+        fullBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.remove(1);
+                panel.add(fullPanel);
+                panel.revalidate();
+                panel.repaint();
+            }
+        });
+        mainBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                panel.revalidate();
+                panel.repaint();
+            }
+        });
+        buttonsPanel.add(mainBtn);
+
+        //panel.add(buttonsPanel);
+        panel.add(fullPanel);
+
+        return panel;
+
+        /*
+        frame.add(panel);
+        frame.pack();
+        frame.setVisible(true);
+
+         */
+    }
+
+    private static JPanel createSlot(BuildSlot bs, String urlType){
+        JPanel slot = new JPanel();
+        BoxLayout layout = new BoxLayout(slot,BoxLayout.Y_AXIS);
+        slot.setLayout(layout);
+        JLabel imagePanel = new JLabel();
+        try{
+            URL url;
+            if(urlType.equalsIgnoreCase("icon")){
+                url = new URL(bs.getItem().getIconUrl());
+            }else{
+                url = new URL(bs.getItem().getFullUrl());
+            }
+            BufferedImage image = ImageIO.read(url);
+            imagePanel.setIcon(new ImageIcon(image));
+        }catch(Exception e){
+            System.out.println(bs.getItem().getName() + " image not found");
+        }
+        slot.add(imagePanel);
+        imagePanel.setText(bs.activeLinksToStringStars());
+        imagePanel.setHorizontalTextPosition(JLabel.CENTER);
+        imagePanel.setVerticalTextPosition(JLabel.BOTTOM);
+        imagePanel.setFont(new Font(imagePanel.getFont().getFontName(),imagePanel.getFont().getStyle(),15));
+        return slot;
+    }
+    private static JPanel createAndShowItemSearchGUI() throws FileNotFoundException {
         JFrame frame = new JFrame("Item Search");
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -436,10 +677,19 @@ public class BuilderGUI extends JPanel{
 
         panel.add(itemCardPanel);
 
+        return panel;
+
+        /*
         frame.add(panel);
         frame.pack();
         frame.setSize(300,500);
         //frame.setVisible(true);
-    }
 
+         */
+    }
+    private JLabel displayImage(String link) throws IOException {
+        URL url = new URL(link);
+        BufferedImage image = ImageIO.read(url);
+        return new JLabel(new ImageIcon(image));
+    }
 }
