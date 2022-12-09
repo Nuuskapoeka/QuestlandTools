@@ -39,8 +39,9 @@ public class GuildBossManager {
     public int highestSolo(int health,int attack,int defence,int magic){
         return -1;
     }
-    public long estimatedDamage(int health,int attack,int defence,int magic, double weaponPassive, double linkPassive){
-
-        return -1;
+    public long estimatedDamage(int health,int attack,int defence,int magic,int multi, double weaponPassive, double linkPassive, double talentMulti){
+        long estDamage = (long) (attack*weaponPassive*multi*linkPassive*27);
+        estDamage*=talentMulti*1.2;
+        return estDamage;
     }
 }
