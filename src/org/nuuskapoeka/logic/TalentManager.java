@@ -22,10 +22,15 @@ public class TalentManager {
             Scanner r = new Scanner(url.openStream());
             r.nextLine();
 
+
+            Talent t = null;
             while(r.hasNextLine()){
                 String[] b = r.nextLine().split(",");
+                if(t==null || b[0].equalsIgnoreCase(t.getName())){
+                    t = new Talent(b[0],Integer.parseInt(b[2]),b[3]);
+                }
 
-                Talent t = new Talent(b[0],Integer.parseInt(b[2]),b[3]);
+                talentList.add(t);
             }
             System.out.println("successfully loaded " + talentList.size() + " bosses");
         }catch(IOException e){
