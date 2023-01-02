@@ -62,4 +62,16 @@ public class Talent {
     public void setFourSpirit(TalentPart fourSpirit) {
         this.fourSpirit = fourSpirit;
     }
+
+    @Override
+    public String toString() {
+        return "Talent{" +
+                "name='" + name + '\'' +
+                ", cost=" + cost +
+                ", color='" + color + '\'' +
+                ", \noneSpirit=" + oneSpirit +
+                ", \ntwoSpirit=" + twoSpirit +
+                ", \nfourSpirit=" + fourSpirit +
+                '}';
+    }
 }

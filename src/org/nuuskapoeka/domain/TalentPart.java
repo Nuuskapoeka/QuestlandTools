@@ -147,4 +147,26 @@ public class TalentPart {
     public void setHealType(String healType) {
         this.healType = healType;
     }
+
+    public double getDamage(int level){
+        return (((baseMin+baseMax)/2)+(damageScale*(level-1)))*hitAmount;
+    }
+    @Override
+    public String toString() {
+        return "TalentPart{" +
+                "name='" + name + '\'' +
+                ", spirits=" + spirits +
+                ", price=" + price +
+                ", color='" + color + '\'' +
+                ", baseMin=" + baseMin +
+                ", baseMax=" + baseMax +
+                ", damageScale=" + damageScale +
+                ", hitAmount=" + hitAmount +
+                ", shieldIgnoreMin=" + shieldIgnoreMin +
+                ", shieldIgnoreMax=" + shieldIgnoreMax +
+                ", healMin=" + healMin +
+                ", healMax=" + healMax +
+                ", healType='" + healType + '\'' +
+                '}';
+    }
 }

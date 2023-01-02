@@ -63,7 +63,9 @@ public class BuilderGUI extends JPanel{
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JMenuBar navBar = new JMenuBar();
         JMenu nav = new JMenu("Builder");
+        JMenu misc = new JMenu("Misc");
         navBar.add(nav);
+        navBar.add(misc);
         JMenuItem itemOne = new JMenuItem("Builder");
         itemOne.addActionListener(new ActionListener() {
             @Override
@@ -88,11 +90,24 @@ public class BuilderGUI extends JPanel{
                 navPanel.repaint();
             }
         });
-        JMenuItem itemThree = new JMenuItem("CheckLinks");
+
+        JMenuItem dailyBoss = new JMenuItem("Daily Boss");
+        dailyBoss.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(0);
+                navPanel.add(dailyBossPanel());
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
         //itemOne.getAccessibleContext().setAccessibleDescription("Builder");
         nav.add(itemOne);
         nav.add(itemTwo);
+
+        misc.add(dailyBoss);
         //nav.add(itemThree);
+
 
         //Display the window.
         frame.setJMenuBar(navBar);
@@ -100,7 +115,33 @@ public class BuilderGUI extends JPanel{
         frame.setSize(1200,800);
         frame.setVisible(true);
     }
+    public static JPanel dailyBossPanel(){
 
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        JLabel imagePanel = new JLabel();
+        JLabel bossPanel = new JLabel();
+        try{
+            URL url;
+            url = new URL("https://i.ibb.co/J280Vcd/dbnormal.png");
+            BufferedImage image = ImageIO.read(url);
+            imagePanel.setIcon(new ImageIcon(image));
+        }catch(Exception e){
+            System.out.println("image not found");
+        }
+        try{
+            URL url;
+            url = new URL("https://storage.googleapis.com/ql-files-eu/"+62069+".bin");
+            BufferedImage image = ImageIO.read(url);
+            bossPanel.setIcon(new ImageIcon(image));
+        }catch(Exception e){
+            System.out.println("image not found");
+        }
+        panel.add(bossPanel);
+        panel.add(imagePanel);
+
+        return panel;
+    }
     public static JPanel createMainPanel(){
 
         panel = new JPanel();
@@ -472,6 +513,7 @@ public class BuilderGUI extends JPanel{
     private static JPanel createAndShowGearVisualizer(Build build) throws FileNotFoundException {
         JFrame frame = new JFrame("Visualize");
         JPanel panel = new JPanel();
+        panel.setBackground(new Color(39,34,28,0));
         BoxLayout panelLayout = new BoxLayout(panel,BoxLayout.Y_AXIS);
         panel.setLayout(panelLayout);
         GridLayout mainLayout = new GridLayout(4,2);
