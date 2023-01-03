@@ -90,7 +90,16 @@ public class BuilderGUI extends JPanel{
                 navPanel.repaint();
             }
         });
-
+        JMenuItem itemThree = new JMenuItem("BE Calc");
+        itemThree.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(0);
+                navPanel.add(battleEventCalculator());
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
         JMenuItem dailyBoss = new JMenuItem("Daily Boss");
         dailyBoss.addActionListener(new ActionListener() {
             @Override
@@ -104,6 +113,7 @@ public class BuilderGUI extends JPanel{
         //itemOne.getAccessibleContext().setAccessibleDescription("Builder");
         nav.add(itemOne);
         nav.add(itemTwo);
+        nav.add(itemThree);
 
         misc.add(dailyBoss);
         //nav.add(itemThree);
@@ -728,6 +738,99 @@ public class BuilderGUI extends JPanel{
         //frame.setVisible(true);
 
          */
+    }
+
+    private static JPanel battleEventCalculator(){
+
+        HardBossManager hbmanager = new HardBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1515191929&single=true&output=csv");
+        hbmanager.load();
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
+
+        JPanel calcPanel = new JPanel();
+        calcPanel.setLayout(new BoxLayout(calcPanel,BoxLayout.X_AXIS));
+
+        JComboBox weekSelect = new JComboBox();
+        weekSelect.addItem("Red");
+        weekSelect.addItem("Blue");
+
+        JPanel statPanels = new JPanel();
+        statPanels.setLayout(new BoxLayout(statPanels,BoxLayout.Y_AXIS));
+        statPanels.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Stats"));
+        JTextField healthField = new JTextField(String.valueOf(currentlyLoaded.getMaxHealthInt()));
+        JTextField attackField = new JTextField(String.valueOf(currentlyLoaded.getMaxAttackInt()));
+        JTextField defenceField = new JTextField(String.valueOf(currentlyLoaded.getMaxDefenceInt()));
+        JTextField magicField = new JTextField(String.valueOf(currentlyLoaded.getMaxMagicInt()));
+        JTextField multiField = new JTextField("200");
+        statPanels.add(healthField);
+        statPanels.add(attackField);
+        statPanels.add(defenceField);
+        statPanels.add(magicField);
+        statPanels.add(multiField);
+
+        JPanel miscPanels = new JPanel();
+        miscPanels.setLayout(new BoxLayout(miscPanels,BoxLayout.Y_AXIS));
+        miscPanels.setBorder(BorderFactory.createTitledBorder(BorderFactory.createLineBorder(Color.BLACK,2),"Misc"));
+        JRadioButton lotw = new JRadioButton("Lady of the Woods");
+        JRadioButton runic = new JRadioButton("Runic Touch");
+        JRadioButton res = new JRadioButton("Resurrect");
+
+        miscPanels.add(lotw);
+        miscPanels.add(runic);
+        miscPanels.add(res);
+
+        JPanel bossPanel = new JPanel();
+        bossPanel.setLayout(new BoxLayout(bossPanel,BoxLayout.Y_AXIS));
+        JLabel max2 = new JLabel("Max 2: ");
+        JTextField max2Field = new JTextField();
+        max2Field.setEditable(false);
+        JLabel max6 = new JLabel("Max 6: ");
+        JTextField max6Field = new JTextField();
+        max6Field.setEditable(false);
+        bossPanel.add(max2);
+        bossPanel.add(max2Field);
+        bossPanel.add(max6);
+        bossPanel.add(max6Field);
+
+        JButton calcMax = new JButton("Calc");
+        calcMax.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(weekSelect.getSelectedItem().toString().equalsIgnoreCase("blue")){
+                    max2Field.setText(String.valueOf(hbmanager.getHighestHardBossBlue2(currentlyLoaded.getMaxHealthInt(),
+                            currentlyLoaded.getMaxAttackInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            Integer.parseInt(multiField.getText()),lotw.isSelected())));
+                    max6Field.setText(String.valueOf(hbmanager.getHighestHardBossBlue6(currentlyLoaded.getMaxHealthInt(),
+                            currentlyLoaded.getMaxAttackInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            Integer.parseInt(multiField.getText()),lotw.isSelected())));
+                }else{
+                    max2Field.setText(String.valueOf(hbmanager.getHighestHardBossRed2(currentlyLoaded.getMaxHealthInt(),
+                            currentlyLoaded.getMaxAttackInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            Integer.parseInt(multiField.getText()),res.isSelected(),runic.isSelected())));
+                    max6Field.setText(String.valueOf(hbmanager.getHighestHardBossRed6(currentlyLoaded.getMaxHealthInt(),
+                            currentlyLoaded.getMaxAttackInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            currentlyLoaded.getMaxDefenceInt(),
+                            Integer.parseInt(multiField.getText()),res.isSelected(),runic.isSelected())));
+                }
+            }
+        });
+
+        calcPanel.add(statPanels);
+        calcPanel.add(miscPanels);
+        calcPanel.add(bossPanel);
+
+        panel.add(weekSelect);
+        panel.add(calcMax);
+        panel.add(calcPanel);
+        return panel;
     }
     private JLabel displayImage(String link) throws IOException {
         URL url = new URL(link);
