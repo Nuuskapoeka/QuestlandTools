@@ -1,6 +1,7 @@
 package org.nuuskapoeka.logic;
 
 import org.nuuskapoeka.domain.BuildSlot;
+import org.nuuskapoeka.domain.DailyBoss;
 import org.nuuskapoeka.domain.Item;
 import org.nuuskapoeka.tools.Writer;
 
@@ -17,6 +18,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -127,13 +129,17 @@ public class BuilderGUI extends JPanel{
     }
     public static JPanel dailyBossPanel(){
 
+        DailyBossManager dbManager = new DailyBossManager();
+        dbManager.load();
+        DailyBoss db = dbManager.getToday();
+
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
         JLabel imagePanel = new JLabel();
         JLabel bossPanel = new JLabel();
         try{
             URL url;
-            url = new URL("https://i.ibb.co/J280Vcd/dbnormal.png");
+            url = new URL(db.getBuildUrl());
             BufferedImage image = ImageIO.read(url);
             imagePanel.setIcon(new ImageIcon(image));
         }catch(Exception e){
@@ -141,7 +147,7 @@ public class BuilderGUI extends JPanel{
         }
         try{
             URL url;
-            url = new URL("https://storage.googleapis.com/ql-files-eu/"+62069+".bin");
+            url = new URL("https://storage.googleapis.com/ql-files-eu/"+db.getBossUrlId()+".bin");
             BufferedImage image = ImageIO.read(url);
             bossPanel.setIcon(new ImageIcon(image));
         }catch(Exception e){
