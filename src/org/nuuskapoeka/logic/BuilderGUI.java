@@ -61,6 +61,7 @@ public class BuilderGUI extends JPanel{
         //Create and set up the window.
 
         JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061, Graphics ©Gamesture sp. z o.o.");
+        frame.setResizable(false);
         frame.add(createMainPanel());
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         JMenuBar navBar = new JMenuBar();
@@ -133,8 +134,13 @@ public class BuilderGUI extends JPanel{
         dbManager.load();
         DailyBoss db = dbManager.getToday();
 
+        JLabel boss = new JLabel(db.getName() + " : " + db.getDate());
+        boss.setFont(new Font("trajan-bold",boss.getFont().getStyle(),25));
+
         JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel,BoxLayout.X_AXIS));
+        JPanel buildPanel = new JPanel();
+        buildPanel.setLayout(new BoxLayout(buildPanel,BoxLayout.X_AXIS));
+        panel.setLayout(new BoxLayout(panel,BoxLayout.Y_AXIS));
         JLabel imagePanel = new JLabel();
         JLabel bossPanel = new JLabel();
         try{
@@ -153,8 +159,32 @@ public class BuilderGUI extends JPanel{
         }catch(Exception e){
             System.out.println("image not found");
         }
-        panel.add(bossPanel);
-        panel.add(imagePanel);
+
+        JPanel searchPanel = new JPanel();
+        searchPanel.setBorder(BorderFactory.createTitledBorder("Search"));
+        searchPanel.setLayout(new BoxLayout(searchPanel,BoxLayout.X_AXIS));
+        JPanel dateFields = new JPanel();
+        dateFields.setAlignmentX(JPanel.LEFT_ALIGNMENT);
+        dateFields.setLayout(new BoxLayout(dateFields,BoxLayout.Y_AXIS));
+        JLabel day = new JLabel("Day: ");
+        JTextField dayField = new JTextField();
+        JLabel month = new JLabel("Month: ");
+        JTextField monthField = new JTextField();
+
+        dateFields.add(day);
+        dateFields.add(dayField);
+        dateFields.add(month);
+        dateFields.add(monthField);
+
+        searchPanel.add(dateFields);
+
+
+        buildPanel.add(bossPanel);
+        buildPanel.add(imagePanel);
+
+        panel.add(boss);
+        panel.add(buildPanel);
+        panel.add(searchPanel);
 
         return panel;
     }

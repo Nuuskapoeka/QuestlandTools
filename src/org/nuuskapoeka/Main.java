@@ -29,7 +29,7 @@ public class Main {
         //System.out.println(talentManager.getTalent("bloodlust").getFourSpirit().getDamage(10));
         //System.out.println(gbManager.estimatedDamage(2188377,2848499,1521377,1650945,300,1.16,1.25,2.675)/1000000000);
         MainUI ui = new MainUI(config);
-        ui.startAnalyzer();
+        ui.startBuilder();
 
     }
 }
