@@ -163,21 +163,39 @@ public class BuilderGUI extends JPanel{
         JPanel searchPanel = new JPanel();
         searchPanel.setBorder(BorderFactory.createTitledBorder("Search"));
         searchPanel.setLayout(new BoxLayout(searchPanel,BoxLayout.X_AXIS));
-        JPanel dateFields = new JPanel();
-        dateFields.setAlignmentX(JPanel.LEFT_ALIGNMENT);
-        dateFields.setLayout(new BoxLayout(dateFields,BoxLayout.Y_AXIS));
-        JLabel day = new JLabel("Day: ");
-        JTextField dayField = new JTextField();
-        JLabel month = new JLabel("Month: ");
-        JTextField monthField = new JTextField();
 
-        dateFields.add(day);
-        dateFields.add(dayField);
-        dateFields.add(month);
-        dateFields.add(monthField);
+        List<String> bosses = dbManager.getBosses().stream().map(b -> b.getName()).collect(Collectors.toList());
 
-        searchPanel.add(dateFields);
+        JComboBox bossDropdown = new JComboBox(bosses.toArray());
+        searchPanel.add(bossDropdown);
+        bossDropdown.setSelectedItem(db.getName());
 
+        JButton searchButton = new JButton("Search");
+        searchButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                DailyBoss selectBoss = dbManager.getBoss(bossDropdown.getSelectedItem().toString());
+                try{
+                    URL url;
+                    url = new URL(selectBoss.getBuildUrl());
+                    BufferedImage image = ImageIO.read(url);
+                    imagePanel.setIcon(new ImageIcon(image));
+                }catch(Exception ex){
+                    System.out.println("image not found");
+                }
+                try{
+                    URL url;
+                    url = new URL("https://storage.googleapis.com/ql-files-eu/"+selectBoss.getBossUrlId()+".bin");
+                    BufferedImage image = ImageIO.read(url);
+                    bossPanel.setIcon(new ImageIcon(image));
+                }catch(Exception ex){
+                    System.out.println("image not found");
+                }
+                boss.setText(selectBoss.getName());
+            }
+        });
+
+        searchPanel.add(searchButton);
 
         buildPanel.add(bossPanel);
         buildPanel.add(imagePanel);

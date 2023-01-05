@@ -41,6 +41,15 @@ public class DailyBossManager {
         String[] dates = d.split("/");
         return LocalDate.of(Integer.parseInt(dates[2]), Integer.parseInt(dates[1]), Integer.parseInt(dates[0]));
     }
+
+    public List<DailyBoss> getBosses() {
+        return bosses;
+    }
+
+    public void setBosses(List<DailyBoss> bosses) {
+        this.bosses = bosses;
+    }
+
     public DailyBoss getToday(){
         for(DailyBoss db : bosses){
             if(db.getDate().isEqual(LocalDate.now())){
@@ -49,9 +58,9 @@ public class DailyBossManager {
         }
         return null;
     }
-    public DailyBoss getBoss(LocalDate d){
+    public DailyBoss getBoss(String name){
         for(DailyBoss db : bosses){
-            if(db.getDate().isEqual(d)){
+            if(db.getName().equalsIgnoreCase(name)){
                 return db;
             }
         }
