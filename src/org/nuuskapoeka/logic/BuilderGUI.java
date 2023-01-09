@@ -134,7 +134,7 @@ public class BuilderGUI extends JPanel{
         dbManager.load();
         DailyBoss db = dbManager.getToday();
 
-        JLabel boss = new JLabel(db.getName() + " : " + db.getDate());
+        JLabel boss = new JLabel(db.getName());
         boss.setFont(new Font("trajan-bold",boss.getFont().getStyle(),25));
 
         JPanel panel = new JPanel();

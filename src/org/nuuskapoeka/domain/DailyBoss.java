@@ -2,28 +2,31 @@ package org.nuuskapoeka.domain;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DailyBoss {
 
-    private LocalDate date;
+    private List<LocalDate> date;
     private String name;
     private String buildUrl;
     private String bossUrlId;
 
     public DailyBoss(LocalDate date, String name, String buildUrl, String bossUrlId){
-
-        this.date = date;
+        this.date = new ArrayList<>();
+        this.date.add(date);
         this.name = name;
         this.buildUrl = buildUrl;
         this.bossUrlId = bossUrlId;
     }
 
-    public LocalDate getDate() {
+    public List<LocalDate> getDates() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(List<LocalDate> date) {
         this.date = date;
     }
 

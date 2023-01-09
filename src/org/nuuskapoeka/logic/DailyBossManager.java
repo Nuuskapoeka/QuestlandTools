@@ -30,12 +30,25 @@ public class DailyBossManager {
             while(r.hasNextLine()){
                 String[] b = r.nextLine().split(",");
                 LocalDate d = parseDate(b[0]);
-                bosses.add(new DailyBoss(d,b[1],b[2],b[3]));
+                if(!hasBoss(b[1])){
+                    bosses.add(new DailyBoss(d,b[1],b[2],b[3]));
+                    continue;
+                }
+                getBoss(b[1]).getDates().add(d);
+
             }
             System.out.println("successfully loaded " + bosses.size() + " bosses");
         }catch(IOException e){
             System.out.println("file not found");
         }
+    }
+    private boolean hasBoss(String s){
+        for(DailyBoss b : bosses){
+            if(b.getName().equalsIgnoreCase(s)){
+                return true;
+            }
+        }
+        return false;
     }
     private LocalDate parseDate(String d){
         String[] dates = d.split("/");
@@ -52,7 +65,7 @@ public class DailyBossManager {
 
     public DailyBoss getToday(){
         for(DailyBoss db : bosses){
-            if(db.getDate().isEqual(LocalDate.now())){
+            if(db.getDates().contains(LocalDate.now())){
                 return db;
             }
         }
