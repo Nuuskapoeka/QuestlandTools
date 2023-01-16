@@ -48,26 +48,34 @@ public class HardBossManager {
                 magicToTank*=0.8;
             }
             if(magicToTank<health*multi){
+
                 boss++;
             }else{
+                System.out.println((long)(defence*multi*5)-b.getAttack());
+                System.out.println((long)(defence*multi*5));
+                System.out.println(b.getAttack());
                 return boss;
             }
         }
         return -1;
     }
     public int getHighestHardBossBlue6(int health,int attack,int defence,int magic,int multi,boolean lotw){
-        int boss = 0;
+        int bossMagic = 0;
+        int bossMelee = 0;
         for(Boss b : bosses){
             long magicToTank = (long) (b.getMagic()*0.9*0.8*0.85)/25;
             if(lotw){
                 magicToTank*=0.8;
             }
             if(magicToTank<health*multi){
-                boss++;
+                bossMagic++;
             }else{
-                return boss;
+                System.out.println((((long)(health*multi)+((long)(defence*multi)-b.getAttack()/25))/(long)(health*multi))*100);
+                System.out.println((long)(health*multi)+(long)(defence*multi));
+                System.out.println(b.getAttack()/5);
+                return bossMagic;
             }
-            if(boss == 150){
+            if(bossMagic == 150){
                 return 150;
             }
         }

@@ -22,7 +22,7 @@ public class Main {
         TalentManager talentManager = new TalentManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=851318924&single=true&output=csv");
         GuildBossManager gbManager = new GuildBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1714212025&single=true&output=csv");
         DailyBossManager dbManager = new DailyBossManager();
-        dbManager.load();
+        //dbManager.load();
         //01/01/2023
         //gbManager.load();
         //talentManager.load();

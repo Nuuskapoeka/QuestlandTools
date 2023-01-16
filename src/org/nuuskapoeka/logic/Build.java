@@ -60,6 +60,13 @@ public class Build {
         this.itemList = itemList;
     }
 
+    public void resetBuild(){
+        fullBuild = new ArrayList<>();
+        for(int i = 0; i<29; i++){
+            fullBuild.add(new BuildSlot());
+        }
+
+    }
     public int getOrbPowerEst(){
         double avgPower = (avgOrbBase+(avgOrbBase*0.05*avgEnhance))+(avgOrbPot+(avgOrbPot*0.05*avgEnhance))*179;
         return (int)avgPower*4*9;

@@ -61,6 +61,7 @@ public class BuilderGUI extends JPanel{
         //Create and set up the window.
 
         JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061, Graphics ©Gamesture sp. z o.o.");
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.add(createMainPanel());
         //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -387,7 +388,8 @@ public class BuilderGUI extends JPanel{
                     fileNotFoundException.printStackTrace();
                 }
             }
-        });        JButton builderButton = new JButton("Builder");
+        });
+        JButton builderButton = new JButton("Builder");
         builderButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -411,11 +413,21 @@ public class BuilderGUI extends JPanel{
                 navPanel.repaint();
             }
         });
+        JButton resetButton = new JButton("Reset");
+        resetButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currentlyLoaded.resetBuild();
+                //loadBuildIn(currentlyLoaded.getFullBuild());
+                checkLinks(currentlyLoaded);
+            }
+        });
         navButtonPanel.add(checkLinksButton);
+        navButtonPanel.add(resetButton);
         //navButtonPanel.add(builderButton);
         //navButtonPanel.add(visualizerButton);
 
-        panel.add(checkLinksButton);
+        panel.add(navButtonPanel);
         panel.add(equipped);
         panel.add(collections);
         panel.add(miscPanel);
@@ -459,7 +471,7 @@ public class BuilderGUI extends JPanel{
                 .collect(Collectors.toList());
         //System.out.println(type);
         ArrayList<String> filtered = new ArrayList<>();
-
+        filtered.add("");
         for(String s : items2){
             //System.out.println(itemList.getItem(s).getSlot());
             if(itemList.getItem(s).getSlot().equalsIgnoreCase(type)){
@@ -544,6 +556,9 @@ public class BuilderGUI extends JPanel{
     public static void checkLinks(Build build){
         int i = 0;
         for(BuildSlot bs : build.getFullBuild()){
+            if(bs.getItem()==null){
+                panels.get(i).setSelectedIndex(0);
+            }
         	if(bs.getItem()!=null) {
                 labels.get(i).setText(bs.toString());
                 try{
