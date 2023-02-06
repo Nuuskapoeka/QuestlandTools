@@ -30,4 +30,11 @@ public class Writer {
         write.close();
 
     }
+    public void append(String line) throws IOException {
+        write.append(line);
+        write.flush();
+    }
+    public void closeAppend() throws IOException {
+        write.close();
+    }
 }

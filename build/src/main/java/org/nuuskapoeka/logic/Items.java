@@ -38,7 +38,7 @@ public class Items {
             System.out.println(urlConnection.getHeaderFieldKey(i)+" = "+urlConnection.getHeaderField(i));
         }
     }
-    public void load(String file) throws FileNotFoundException {
+    public void load() throws FileNotFoundException {
         int index = 0;
         try{
             URL url=new URL(itemSrc);
@@ -276,8 +276,14 @@ public class Items {
         }
         return build;
     }
-    public Build loadBuild(String fileName) throws FileNotFoundException {
-        Reader r = new Reader(new File(fileName));
+    public Build loadBuild(String fileName){
+        Reader r = null;
+        try {
+            r = new Reader(new File(fileName));
+        } catch (FileNotFoundException e) {
+            System.out.println("Loading Empty Build");
+            return new Build(this);
+        }
         if(!isLoaded){
             //load();
         }

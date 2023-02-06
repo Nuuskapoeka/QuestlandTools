@@ -23,6 +23,7 @@ import java.util.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@SuppressWarnings("unchecked")
 public class BuilderGUI extends JPanel{
 
     private static List<String> items;
@@ -60,7 +61,7 @@ public class BuilderGUI extends JPanel{
     public static void createAndShowGUI() {
         //Create and set up the window.
 
-        JFrame frame = new JFrame("Build Planner ©Nuuskapoeka#9061, Graphics ©Gamesture sp. z o.o.");
+        JFrame frame = new JFrame("Build Planner Â©Nuuskapoeka#9061, Graphics Â©Gamesture sp. z o.o.");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.add(createMainPanel());
@@ -104,6 +105,16 @@ public class BuilderGUI extends JPanel{
                 navPanel.repaint();
             }
         });
+        JMenuItem itemFour = new JMenuItem("Reforge");
+        itemFour.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                navPanel.remove(0);
+                navPanel.add(reforgePanel());
+                navPanel.revalidate();
+                navPanel.repaint();
+            }
+        });
         JMenuItem dailyBoss = new JMenuItem("Daily Boss");
         dailyBoss.addActionListener(new ActionListener() {
             @Override
@@ -118,6 +129,7 @@ public class BuilderGUI extends JPanel{
         nav.add(itemOne);
         nav.add(itemTwo);
         nav.add(itemThree);
+        nav.add(itemFour);
 
         misc.add(dailyBoss);
         //nav.add(itemThree);
@@ -540,6 +552,9 @@ public class BuilderGUI extends JPanel{
     }
     public static void loadBuildIn(List<BuildSlot> fullBuild){
         int i = 0;
+        if(fullBuild.isEmpty()){
+             return;
+        }
         for(JComboBox jcb : panels){
         	if(fullBuild.get(i).getItem()!=null) {
                 jcb.setSelectedItem(fullBuild.get(i).getItem().getName());
@@ -809,6 +824,64 @@ public class BuilderGUI extends JPanel{
          */
     }
 
+    private static JPanel reforgePanel(){
+        JPanel reforge = new JPanel();
+        reforge.setLayout(new BoxLayout(reforge,BoxLayout.Y_AXIS));
+        reforge.add(new JLabel("REFORGE"));
+
+        JPanel reforges = new JPanel();
+        reforges.setLayout(new BoxLayout(reforges,BoxLayout.Y_AXIS));
+
+        JTable table = new JTable();
+
+        JLabel helm = new JLabel("Helmet");
+        JTextField helmHealth = new JTextField();
+        JTextField helmAttack = new JTextField();
+        JTextField helmDefence = new JTextField();
+        JTextField helmMagic = new JTextField();
+
+        JLabel ches = new JLabel("Armor");
+        JTextField chesTF = new JTextField();
+        JLabel glov = new JLabel("Gloves");
+        JTextField glovTF = new JTextField();
+        JLabel boot = new JLabel("Boots");
+        JTextField bootTF = new JTextField();
+        JLabel neck = new JLabel("Necklace");
+        JTextField neckTF = new JTextField();
+        JLabel ring = new JLabel("Ring");
+        JTextField ringTF = new JTextField();
+        JLabel tali = new JLabel("Talisman");
+        JTextField taliTF = new JTextField();
+
+        reforges.add(helm);
+        reforges.add(helmHealth);
+        reforges.add(helmAttack);
+        reforges.add(helmDefence);
+        reforges.add(helmMagic);
+        reforges.add(ches);
+        reforges.add(chesTF);
+        reforges.add(glov);
+        reforges.add(glovTF);
+        reforges.add(boot);
+        reforges.add(bootTF);
+        reforges.add(neck);
+        reforges.add(neckTF);
+        reforges.add(ring);
+        reforges.add(ringTF);
+        reforges.add(tali);
+        reforges.add(taliTF);
+
+        reforge.add(reforges);
+
+        JButton apply = new JButton("Apply");
+        apply.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            }
+        });
+
+        return reforge;
+    }
     private static JPanel battleEventCalculator(){
 
         HardBossManager hbmanager = new HardBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1515191929&single=true&output=csv");

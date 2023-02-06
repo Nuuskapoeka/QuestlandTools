@@ -29,6 +29,7 @@ public class Config {
     }
 
     public void read() throws IOException {
+        File f = new File(configPath);
         try {
             Scanner r = new Scanner(new File(configPath));
 
@@ -83,8 +84,8 @@ public class Config {
         trackerStatus = false;
         list.add("builderSource: null");
         builderSource = null;
-        list.add("buildSource: null");
-        buildSource = null;
+        list.add("buildSource: build.csv");
+        buildSource = "build.csv";
 
         return list;
     }

@@ -3,4 +3,4 @@ startWeek: 1
 builderStatus: true
 trackerStatus: false
 builderSource: null
-buildSource: build.csv
+buildSource: null

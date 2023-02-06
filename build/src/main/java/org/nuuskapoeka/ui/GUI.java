@@ -22,6 +22,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
+@SuppressWarnings("unchecked")
 public class GUI {
 
     private static Guild guild;
@@ -80,7 +81,7 @@ public class GUI {
         String s = config.getBuilderSource();
         //System.out.println("Build file location:");
         String b = config.getBuildSource();
-        itemList.load(s);
+        itemList.load();
         builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
         //this.itemList.clearEmpty();
         builderGui.startGUI();

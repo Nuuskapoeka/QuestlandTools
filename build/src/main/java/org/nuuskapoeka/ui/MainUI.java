@@ -49,7 +49,7 @@ public class MainUI {
     	String s = config.getBuilderSource();
     	//System.out.println("Build file location:");
     	String b = config.getBuildSource();
-    	itemList.load(s);
+    	itemList.load();
         this.builderGui = new BuilderGUI(itemList.getItemNames(), itemList);
         //this.itemList.clearEmpty();
         builderGui.startGUI();
@@ -160,7 +160,7 @@ public class MainUI {
     	Scanner r = new Scanner(System.in);
     	//System.out.println("Item file location:");
     	//String s = r.nextLine();
-    	itemList.load("build\\items.csv");
+    	//itemList.load("build\\items.csv");
         //craftSolver.start();
         //this.itemList.clearEmpty();
         //this.itemList.findLength(15,"____E__________", "SACROS");

@@ -12,15 +12,22 @@ public class BuildSlot {
     private List<String> activeLinks;
     private boolean oneStatReforge;
 
+    private double healthReforge;
+    private double attackReforge;
+    private double defencReforge;
+    private double magicReforge;
+
     public BuildSlot(){
         this.isLinked = false;
         this.isOrbLinked = false;
     }
+
     public BuildSlot(Item item){
         this.item = item;
         this.isLinked = false;
-        isOrbLinked = false;
+        this.isOrbLinked = false;
         this.activeLinks = new ArrayList<>();
+        setDefaultReforge();
     }
 
     public Item getItem() {
@@ -87,5 +94,67 @@ public class BuildSlot {
         return item.getIdentifier() +"{" +
                 "links:" + activeLinksToStringStars() +
                 '}';
+    }
+
+    public double getHealthReforge() {
+        return healthReforge;
+    }
+
+    public void setHealthReforge(double healthReforge) {
+        this.healthReforge = healthReforge;
+    }
+
+    public double getAttackReforge() {
+        return attackReforge;
+    }
+
+    public void setAttackReforge(double attackReforge) {
+        this.attackReforge = attackReforge;
+    }
+
+    public double getDefencReforge() {
+        return defencReforge;
+    }
+
+    public void setDefencReforge(double defencReforge) {
+        this.defencReforge = defencReforge;
+    }
+
+    public double getMagicReforge() {
+        return magicReforge;
+    }
+
+    public void setMagicReforge(double magicReforge) {
+        this.magicReforge = magicReforge;
+    }
+    private void setDefaultReforge(){
+        if(item.getType() == null){
+            healthReforge = 0.5;
+            attackReforge = 0.5;
+            defencReforge = 0;
+            magicReforge = 0;
+            return;
+        }
+        if(item.getType().equalsIgnoreCase("attack")){
+            healthReforge = 0.5;
+            attackReforge = 0.5;
+            defencReforge = 0;
+            magicReforge = 0;
+        }else if(item.getType().equalsIgnoreCase("defence")){
+            healthReforge = 0;
+            attackReforge = 0.5;
+            defencReforge = 0.5;
+            magicReforge = 0;
+        }else if(item.getType().equalsIgnoreCase("magic")){
+            healthReforge = 0;
+            attackReforge = 0;
+            defencReforge = 0.5;
+            magicReforge = 0.5;
+        }else if(item.getType().equalsIgnoreCase("health")){
+            healthReforge = 1;
+            attackReforge = 0;
+            defencReforge = 0;
+            magicReforge = 0;
+        }
     }
 }

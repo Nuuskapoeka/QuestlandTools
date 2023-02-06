@@ -124,8 +124,10 @@ public class Build {
                 index++;
             }
         }
-        addStats(fullBuild.get(27),0,27);
-        addStats(fullBuild.get(28),0,28);
+        if(!fullBuild.isEmpty()){
+            addStats(fullBuild.get(27),0,27);
+            addStats(fullBuild.get(28),0,28);
+        }
         //System.out.println("Full overview");
 
         //System.out.println("health = " + health + "\nattack = " + attack + "\ndefence = " + defence + "\nmagic = " + magic);
@@ -277,34 +279,59 @@ public class Build {
             } else if(slot.getItem().getType().equalsIgnoreCase("health") || slot.getItem().getTypeID().contains("Col")){
                 addFullStatsColItem(slot);
             }
+<<<<<<< Updated upstream
             if(linking < 2){
+=======
+            if(linking >= 2){
+>>>>>>> Stashed changes
                 if(slot.getItem().getType().equalsIgnoreCase("attack")){
                     this.health += slot.getItem().getHealth()*1.15;
                     this.attack += slot.getItem().getAttack()*1.3;
                     this.defence += slot.getItem().getDefence();
                     this.magic += slot.getItem().getMagic();
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge/2)*1.3;
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge())*1.15;
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge())*1.3;
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge());
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge());
+>>>>>>> Stashed changes
                 }else if(slot.getItem().getType().equalsIgnoreCase("defence")){
                     this.health += slot.getItem().getHealth();
                     this.attack += slot.getItem().getAttack()*1.15;
                     this.defence += slot.getItem().getDefence()*1.3;
                     this.magic += slot.getItem().getMagic();
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge/2)*1.3;
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge());
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge())*1.15;
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge())*1.3;
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge());
+>>>>>>> Stashed changes
                 }else if(slot.getItem().getType().equalsIgnoreCase("magic")){
                     this.health += slot.getItem().getHealth();
                     this.attack += slot.getItem().getAttack();
                     this.defence += slot.getItem().getDefence()*1.15;
                     this.magic += slot.getItem().getMagic()*1.3;
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge/2)*1.3;
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge());
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge());
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge())*1.15;
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge())*1.3;
+>>>>>>> Stashed changes
                 }
             }else{
                 if(slot.getItem().getType().equalsIgnoreCase("attack")){
@@ -312,28 +339,49 @@ public class Build {
                     this.attack += slot.getItem().getAttack();
                     this.defence += slot.getItem().getDefence();
                     this.magic += slot.getItem().getMagic();
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge/2);
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5));
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge())*1.15;
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge());
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge());
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge());
+>>>>>>> Stashed changes
                 }else if(slot.getItem().getType().equalsIgnoreCase("defence")){
                     this.health += slot.getItem().getHealth();
                     this.attack += slot.getItem().getAttack()*1.15;
                     this.defence += slot.getItem().getDefence();
                     this.magic += slot.getItem().getMagic();
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge/2);
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5));
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge());
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge())*1.15;
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge());
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge());
+>>>>>>> Stashed changes
                 }else if(slot.getItem().getType().equalsIgnoreCase("magic")){
                     this.health += slot.getItem().getHealth();
                     this.attack += slot.getItem().getAttack();
                     this.defence += slot.getItem().getDefence()*1.15;
                     this.magic += slot.getItem().getMagic();
+<<<<<<< Updated upstream
                     this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5));
                     this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5));
                     this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge/2)*1.15;
                     this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge/2);
+=======
+                    this.maxHealth += Math.round((slot.getItem().getHealth() + slot.getItem().getHealthInc()*199)*Math.pow(1.2,5)+reforge*slot.getHealthReforge());
+                    this.maxAttack += Math.round((slot.getItem().getAttack() + slot.getItem().getAttackInc()*199)*Math.pow(1.2,5)+reforge*slot.getAttackReforge());
+                    this.maxDefence += Math.round((slot.getItem().getDefence() + slot.getItem().getDefenceInc()*199)*Math.pow(1.2,5)+reforge*slot.getDefencReforge())*1.15;
+                    this.maxMagic += Math.round((slot.getItem().getMagic() + slot.getItem().getMagicInc()*199)*Math.pow(1.2,5)+reforge*slot.getMagicReforge());
+>>>>>>> Stashed changes
                 }
             }
         }
