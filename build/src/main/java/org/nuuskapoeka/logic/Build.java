@@ -93,8 +93,6 @@ public class Build {
     }
 
     public void checkLinks(){
-        List<BuildSlot> oneLinking = new ArrayList<>();
-        List<BuildSlot> noLinking = new ArrayList<>();
 
         int index = 0;
 
@@ -127,31 +125,6 @@ public class Build {
         if(!fullBuild.isEmpty()){
             addStats(fullBuild.get(27),0,27);
             addStats(fullBuild.get(28),0,28);
-        }
-        //System.out.println("Full overview");
-
-        //System.out.println("health = " + health + "\nattack = " + attack + "\ndefence = " + defence + "\nmagic = " + magic);
-        //System.out.println("total = " + (health+attack+defence+magic));
-
-        for(BuildSlot bs : fullBuild ){
-            //System.out.println(bs + "\n");
-            if(bs.getActiveLinks().size()==1){
-                oneLinking.add(bs);
-            }else if(bs.getActiveLinks().size()==0){
-                noLinking.add(bs);
-            }
-        }
-
-        //System.out.println("Has one linking item");
-
-        for(BuildSlot bs : oneLinking){
-            //System.out.println(bs + "\n");
-        }
-
-        //System.out.println("Has no linking items");
-
-        for(BuildSlot bs : noLinking){
-            //System.out.println(bs + "\n");
         }
     }
 
