@@ -89,6 +89,7 @@ public class Items {
 
     }
     public Item InitItem(String[] parts){
+
         if(parts.length==15){
             return new Item(parts[0].toUpperCase(),
                     parts[1].toUpperCase(),

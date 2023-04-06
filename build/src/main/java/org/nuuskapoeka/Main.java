@@ -26,21 +26,14 @@ public class Main {
 
         Build b = new Build(new Items());
 
-        Items i = new Items();
-        i.load();
-        TalentManager talentManager = new TalentManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=851318924&single=true&output=csv");
-        GuildBossManager gbManager = new GuildBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1714212025&single=true&output=csv");
-        DailyBossManager dbManager = new DailyBossManager();
-
-        JsonConverter converter = new JsonConverter();
-        converter.FromCSV(new File("itemData.csv"));
+        //Items i = new Items();
+        //i.load();
+        //TalentManager talentManager = new TalentManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=851318924&single=true&output=csv");
+        //GuildBossManager gbManager = new GuildBossManager("https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1714212025&single=true&output=csv");
+        //DailyBossManager dbManager = new DailyBossManager();
 
         MainUI ui = new MainUI(config);
         ui.startBuilder();
 
-    }
-    public static JSONObject getJson(URL url) throws IOException, JSONException {
-        String json = IOUtils.toString(url, Charset.forName("UTF-8"));
-        return new JSONObject(json);
     }
 }

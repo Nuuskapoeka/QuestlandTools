@@ -91,7 +91,7 @@ public class BuilderGUI extends JPanel{
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-                navPanel.revalidate();
+                //navPanel.revalidate();
                 navPanel.repaint();
             }
         });
@@ -401,30 +401,6 @@ public class BuilderGUI extends JPanel{
                 }
             }
         });
-        JButton builderButton = new JButton("Builder");
-        builderButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                navPanel.remove(1);
-                navPanel.add(panel);
-                navPanel.revalidate();
-                navPanel.repaint();
-            }
-        });
-        JButton visualizerButton = new JButton("Visualize");
-        visualizerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                navPanel.remove(1);
-                try {
-                    navPanel.add(createAndShowGearVisualizer(currentlyLoaded));
-                } catch (FileNotFoundException ex) {
-                    throw new RuntimeException(ex);
-                }
-                navPanel.revalidate();
-                navPanel.repaint();
-            }
-        });
         JButton resetButton = new JButton("Reset");
         resetButton.addActionListener(new ActionListener() {
             @Override
@@ -434,12 +410,7 @@ public class BuilderGUI extends JPanel{
                 checkLinks(currentlyLoaded);
             }
         });
-        navButtonPanel.add(checkLinksButton);
-        navButtonPanel.add(resetButton);
-        //navButtonPanel.add(builderButton);
-        //navButtonPanel.add(visualizerButton);
-
-        panel.add(navButtonPanel);
+        panel.add(checkLinksButton);
         panel.add(equipped);
         panel.add(collections);
         panel.add(miscPanel);
@@ -571,20 +542,9 @@ public class BuilderGUI extends JPanel{
     public static void checkLinks(Build build){
         int i = 0;
         for(BuildSlot bs : build.getFullBuild()){
-            if(bs.getItem()==null){
-                panels.get(i).setSelectedIndex(0);
-            }
         	if(bs.getItem()!=null) {
                 labels.get(i).setText(bs.toString());
-                try{
-                    URL url = new URL(bs.getItem().getIconUrl());
-                    BufferedImage image = ImageIO.read(url);
-
-                    //images.get(i).setIcon(new ImageIcon(resizeImage(image,15,15)));
-                }catch (Exception e){
-                }
         	}
-            //System.out.println(bs.toString());
             i++;
         }
     }
@@ -605,11 +565,6 @@ public class BuilderGUI extends JPanel{
         return false;
     }
     private static JPanel createAndShowGearVisualizer(Build build) throws FileNotFoundException {
-        JFrame frame = new JFrame("Visualize");
-        JPanel panel = new JPanel();
-        panel.setBackground(new Color(39,34,28,0));
-        BoxLayout panelLayout = new BoxLayout(panel,BoxLayout.Y_AXIS);
-        panel.setLayout(panelLayout);
         GridLayout mainLayout = new GridLayout(4,2);
         JPanel mainGearHolder = new JPanel();
         BoxLayout holderLayout = new BoxLayout(mainGearHolder,BoxLayout.Y_AXIS);
@@ -677,41 +632,7 @@ public class BuilderGUI extends JPanel{
         fullPanel.add(colOneHolder);
         fullPanel.add(colTwoHolder);
 
-        JButton fullBtn = new JButton("Full Build");
-        JButton mainBtn = new JButton("Visual");
-
-        JPanel buttonsPanel = new JPanel();
-        buttonsPanel.setLayout(new BoxLayout(buttonsPanel,BoxLayout.X_AXIS));
-        buttonsPanel.add(fullBtn);
-        fullBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.remove(1);
-                panel.add(fullPanel);
-                panel.revalidate();
-                panel.repaint();
-            }
-        });
-        mainBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                panel.revalidate();
-                panel.repaint();
-            }
-        });
-        buttonsPanel.add(mainBtn);
-
-        //panel.add(buttonsPanel);
-        panel.add(fullPanel);
-
-        return panel;
-
-        /*
-        frame.add(panel);
-        frame.pack();
-        frame.setVisible(true);
-
-         */
+        return fullPanel;
     }
 
     private static JPanel createSlot(BuildSlot bs, String urlType){
