@@ -128,7 +128,7 @@ public class BuildSlot {
         this.magicReforge = magicReforge;
     }
     private void setDefaultReforge(){
-        if(item.getType() == null){
+        if(item == null || item.getType() == null){
             healthReforge = 0.5;
             attackReforge = 0.5;
             defencReforge = 0;

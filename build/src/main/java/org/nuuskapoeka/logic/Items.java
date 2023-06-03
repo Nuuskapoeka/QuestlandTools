@@ -24,7 +24,8 @@ public class Items {
     private boolean isLoaded;
 
     public Items(){
-        itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=599842681&single=true&output=csv";
+        //itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=599842681&single=true&output=csv";
+        itemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1747573334&single=true&output=csv";
         colItemSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1120254239&single=true&output=csv";
         weaponSrc = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQACdbvpCIg7Uri2UZ_ZpoPLqEQzB0tWtnf8J8awM7s7DwvZQkoet1V-8TYyEKYPPo_CtU4QdtQDHxo/pub?gid=1278893465&single=true&output=csv";
 
@@ -90,7 +91,16 @@ public class Items {
     }
     public Item InitItem(String[] parts){
 
-        if(parts.length==15){
+        if(parts.length==16){
+            String iconLink = "";
+            String fullLink = "";
+            if(parts[15].equalsIgnoreCase("old")){
+                iconLink = "https://storage.googleapis.com/ql-files-eu/"+parts[13]+".bin";
+                fullLink = "https://storage.googleapis.com/ql-files-eu/"+parts[14]+".bin";
+            }else if(parts[15].equalsIgnoreCase("new")){
+                iconLink = "https://storage.googleapis.com/ql4-files-eu/"+parts[13]+".png";
+                fullLink = "https://storage.googleapis.com/ql4-files-eu/"+parts[14]+".png";
+            }
             return new Item(parts[0].toUpperCase(),
                     parts[1].toUpperCase(),
                     parts[2].toUpperCase(),
@@ -104,8 +114,8 @@ public class Items {
                     parts[10].toUpperCase(),
                     parts[11].toUpperCase(),
                     parts[12],
-                    "https://storage.googleapis.com/ql-files-eu/"+parts[13]+".bin",
-                    "https://storage.googleapis.com/ql-files-eu/"+parts[14]+".bin");
+                    iconLink,
+                    fullLink);
         }else{
             return new Item(parts[0].toUpperCase(),
                     parts[1].toUpperCase(),

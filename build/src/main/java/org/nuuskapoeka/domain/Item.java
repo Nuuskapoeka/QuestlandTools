@@ -278,6 +278,9 @@ public class Item {
                 "\n       " + links.get(0) + 
                 "\n       " + links.get(1) +
                 "\n       " + links.get(2) +
+                "\n    urls" +
+                "\n       " + iconUrl +
+                "\n       " + fullUrl +
                 '}';
     }
 }

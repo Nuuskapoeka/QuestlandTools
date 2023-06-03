@@ -28,7 +28,6 @@ public class BuilderGUI extends JPanel{
 
     private static List<String> items;
     private static Items itemList;
-
     private static List<JComboBox> panels;
     private static List<JLabel> labels;
     private static List<JLabel> images;
@@ -91,7 +90,7 @@ public class BuilderGUI extends JPanel{
                 } catch (FileNotFoundException ex) {
                     throw new RuntimeException(ex);
                 }
-                //navPanel.revalidate();
+                navPanel.revalidate();
                 navPanel.repaint();
             }
         });
@@ -132,7 +131,6 @@ public class BuilderGUI extends JPanel{
         nav.add(itemFour);
 
         misc.add(dailyBoss);
-        //nav.add(itemThree);
 
 
         //Display the window.
@@ -648,9 +646,17 @@ public class BuilderGUI extends JPanel{
                 url = new URL(bs.getItem().getFullUrl());
             }
             BufferedImage image = ImageIO.read(url);
+            if(image.getHeight() > 128){
+                image = resizeImage(image,128,128);
+                //imagePanel.setBorder(BorderFactory.createLineBorder(Color.BLACK,2));
+            }
             imagePanel.setIcon(new ImageIcon(image));
         }catch(Exception e){
-            System.out.println(bs.getItem().getName() + " image not found");
+            if(bs.getItem() == null){
+                System.out.println("Item not found");
+            }else {
+                System.out.println(bs.getItem().getName() + " image not found");
+            }
         }
         slot.add(imagePanel);
         imagePanel.setText(bs.activeLinksToStringStars());
@@ -757,9 +763,10 @@ public class BuilderGUI extends JPanel{
 
         JLabel helm = new JLabel("Helmet");
         JTextField helmHealth = new JTextField();
-        JTextField helmAttack = new JTextField();
-        JTextField helmDefence = new JTextField();
-        JTextField helmMagic = new JTextField();
+        helmHealth.setToolTipText("Health");
+        JTextField helmAttack = new JTextField("Attack");
+        JTextField helmDefence = new JTextField("Defence");
+        JTextField helmMagic = new JTextField("Magic");
 
         JLabel ches = new JLabel("Armor");
         JTextField chesTF = new JTextField();
